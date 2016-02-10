@@ -21,7 +21,7 @@ module.exports = function(app, express) {
 	// ==============================================
 	apiRouter.post('/sample', function(req, res) {
 
-		// look for the user named chris
+		// look for the user named ebony
 		User.findOne({ 'username': 'Ebony' }, function(err, user) {
 
 			// if there is no Ebony user, create one
