@@ -8,14 +8,14 @@ angular.module('app.routes', ['ngRoute'])
 		.when('/', {
 			templateUrl : 'app/views/pages/home.html'
 		})
-		
+
 		// login page
 		.when('/login', {
 			templateUrl : 'app/views/pages/login.html',
    			controller  : 'mainController',
     			controllerAs: 'login'
 		})
-		
+
 		// show all users
 		.when('/users', {
 			templateUrl: 'app/views/pages/users/all.html',
@@ -25,6 +25,8 @@ angular.module('app.routes', ['ngRoute'])
 
 		// form to create a new user
 		// same view as edit page
+		//this page is viewable because it does not interfere with the api
+		//whether logged in or not
 		.when('/users/create', {
 			templateUrl: 'app/views/pages/users/single.html',
 			controller: 'userCreateController',
@@ -32,6 +34,8 @@ angular.module('app.routes', ['ngRoute'])
 		})
 
 		// page to edit a user
+		//this page is viewable because it does not interfere with the api
+		//whether logged in or not
 		.when('/users/:user_id', {
 			templateUrl: 'app/views/pages/users/single.html',
 			controller: 'userEditController',
