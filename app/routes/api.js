@@ -80,7 +80,7 @@ module.exports = function(app, express) {
 	        	name: user.name,
 	        	username: user.username
 	        }, superSecret, {
-	          expiresInMinutes: 1440 // expires in 24 hours
+	          expiresIn: 86400 // expires in 24 hours ----> "expiresInMinutes is DEPRECATED, use expriesIn expressed in seconds"
 	        });
 
 	        // return the information including token as JSON
