@@ -6,8 +6,24 @@ main 					{
 ===================== */
 header .navbar 		{
 	border-radius:0;
+	list-style: none;
 }
 
+header li{
+	padding-top: 5px;
+}
+
+/* FOOTER
+===================== */
+footer{
+	text-align: center;
+}
+
+footer li{
+
+	padding-top: 5px;
+	padding-bottom: 0px;
+}
 /* NGANIMATE
 ====================== */
 
@@ -48,7 +64,9 @@ header .navbar 		{
     border-color: #E7E7E7;
 }
 
-/* title */
+/* Title */
 .navbar-default .navbar-brand {
     color: gold;
 }
+
+
