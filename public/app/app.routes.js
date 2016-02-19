@@ -40,7 +40,15 @@ angular.module('app.routes', ['ngRoute'])
 			templateUrl: 'app/views/pages/users/single.html',
 			controller: 'userEditController',
 			controllerAs: 'user'
-		});
+		})
+        //page to see user profile
+        //should work I should probably look at that
+        .when('/users/:user_id/profile', {
+            templateUrl: 'app/views/pages/users/profile.html',
+            controller: 'userProfileController',
+            controllerAs: 'user'
+        });
+    
 
 	$locationProvider.html5Mode(true);
 
