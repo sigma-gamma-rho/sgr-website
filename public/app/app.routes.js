@@ -43,7 +43,7 @@ angular.module('app.routes', ['ngRoute'])
 		})
         //page to see user profile
         //should work I should probably look at that
-        .when('/users/:user_id/profile', {
+        .when('/users/profile/:user_id', {
             templateUrl: 'app/views/pages/users/profile.html',
             controller: 'userProfileController',
             controllerAs: 'user'
