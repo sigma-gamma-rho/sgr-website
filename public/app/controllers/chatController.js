@@ -8,7 +8,7 @@ angular.module('chatController', [])
   var chatController = this;
 
 
-	chat.initChat = function() {
+	chatController.initChat = function() {
     console.log('hola');
 
 	};
