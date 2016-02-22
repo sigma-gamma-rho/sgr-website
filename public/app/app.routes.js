@@ -40,6 +40,10 @@ angular.module('app.routes', ['ngRoute'])
 			templateUrl: 'app/views/pages/users/single.html',
 			controller: 'userEditController',
 			controllerAs: 'user'
+		})
+		.when('chat',
+			templateUrl: 'app/views/pages/chat.html',
+			controller: 'chatController'
 		});
 
 	$locationProvider.html5Mode(true);

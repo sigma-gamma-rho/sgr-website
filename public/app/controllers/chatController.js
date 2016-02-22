@@ -5,11 +5,11 @@ angular.module('chatController', [])
 // ==============================================
 .controller('chatController', function($location) {
 
-  var chat = this;
+  var chatController = this;
 
 
 	chat.initChat = function() {
-
+    console.log('hola');
 
 	};
 
