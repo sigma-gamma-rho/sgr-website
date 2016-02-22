@@ -41,7 +41,7 @@ angular.module('app.routes', ['ngRoute'])
 			controller: 'userEditController',
 			controllerAs: 'user'
 		})
-		.when('chat',
+		.when('/chat',{
 			templateUrl: 'app/views/pages/chat.html',
 			controller: 'chatController'
 		});
