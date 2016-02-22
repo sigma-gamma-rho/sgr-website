@@ -5,7 +5,7 @@ angular.module('userApp', [
 	'mainCtrl',
 	'userCtrl',
 	'userService',
-	'chatController'
+	'chatCtrl'
 ])
 
 // application configuration to integrate token into requests
