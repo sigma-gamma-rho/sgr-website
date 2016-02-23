@@ -36,10 +36,19 @@ angular.module('app.routes', ['ngRoute'])
 			controller: 'userEditController',
 			controllerAs: 'user'
 		})
+        //page to see user profile
+        //should work I should probably look at that
+        .when('/users/profile/:user_id', {
+            templateUrl: 'app/views/pages/users/profile.html',
+            controller: 'userProfileController',
+            controllerAs: 'user'
+        })
+    
 
 		.otherwise({
 			redirectTo: '/login'
 		});
+
 
 	// get rid of the # signs that angular uses in routing
 	$locationProvider.html5Mode(true);

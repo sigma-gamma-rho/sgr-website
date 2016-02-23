@@ -75,6 +75,22 @@ angular.module('userCtrl', ['userService'])
 	};
 
 })
+// ==============================================
+// INJECT DEPENDENCIES
+// ==============================================
+.controller('userProfileController', function($routeParams, User){
+    var vm = this;
+
+    
+    // ==============================================
+	// GET THE USER TO EDIT BASED ON ID
+	// ==============================================
+	User.get($routeParams.user_id)
+		.success(function(data) {
+			vm.userData = data;
+		});
+
+})
 
 // ==============================================
 // INJECT DEPENDENCIES
