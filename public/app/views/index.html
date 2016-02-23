@@ -25,6 +25,7 @@
 	<script src="app/controllers/userCtrl.js"></script>
 	<script src="app/controllers/chatCtrl.js"></script>
 
+
 	<!-- services -->
 	<script src="app/services/authService.js"></script>
 	<script src="app/services/userService.js"></script>
@@ -63,6 +64,7 @@
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
 					<li ng-if="!main.loggedIn"><a href="/login">Login</a></li>
+					<li ng-if="main.loggedIn"><a href="/chat">Chat Service</a></li>
 					<li ng-if="main.loggedIn"><a href="#" ng-click="main.doLogout()">Logout</a></li>
 				</ul>
 			</div>
