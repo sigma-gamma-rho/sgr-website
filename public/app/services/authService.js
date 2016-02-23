@@ -100,6 +100,7 @@ angular.module('authService', [])
 // send token on every request, http is stateless
 .factory('AuthInterceptor', function($q, $location, AuthToken) {
 
+
 	// factories return objects
 	var interceptorFactory = {};
 
@@ -107,6 +108,7 @@ angular.module('authService', [])
 	// THIS HAPPENS ON ALL HTTP REQUESTS
 	// ===================================================
 	interceptorFactory.request = function(config) {
+
 
 		// grab the token
 		var token = AuthToken.getToken();
