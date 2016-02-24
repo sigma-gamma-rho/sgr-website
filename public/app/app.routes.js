@@ -4,12 +4,12 @@ angular.module('app.routes', ['ngRoute'])
 
 	$routeProvider
 
-		// route for the home page
+		// default route
 		.when('/', {
 			templateUrl : 'app/views/pages/home.html'
 		})
 
-		// login page
+		// login
 		.when('/login', {
 			templateUrl : 'app/views/pages/login.html',
    			controller  : 'mainController',
@@ -23,25 +23,34 @@ angular.module('app.routes', ['ngRoute'])
 			controllerAs: 'user'
 		})
 
-		// form to create a new user
-		// same view as edit page
-		//this page is viewable because it does not interfere with the api
-		//whether logged in or not
+		// create a new user
 		.when('/users/create', {
 			templateUrl: 'app/views/pages/users/single.html',
 			controller: 'userCreateController',
 			controllerAs: 'user'
 		})
 
-		// page to edit a user
-		//this page is viewable because it does not interfere with the api
-		//whether logged in or not
+		// edit a user
 		.when('/users/:user_id', {
 			templateUrl: 'app/views/pages/users/single.html',
 			controller: 'userEditController',
 			controllerAs: 'user'
+		})
+        //page to see user profile
+        //should work I should probably look at that
+        .when('/users/profile/:user_id', {
+            templateUrl: 'app/views/pages/users/profile.html',
+            controller: 'userProfileController',
+            controllerAs: 'user'
+        })
+    
+
+		.otherwise({
+			redirectTo: '/login'
 		});
 
+
+	// get rid of the # signs that angular uses in routing
 	$locationProvider.html5Mode(true);
 
 });

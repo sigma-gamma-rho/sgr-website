@@ -106,6 +106,13 @@ footer li{
 	padding-bottom: 20px;
 }
 
+.ProfileHeader{
+    text-align: center;
+}
+.img-circle {
+    border-radius: 50%;
+}
+
 .fancy-fonts{
 	font-family: 'Brush Script MT', cursive;
 }

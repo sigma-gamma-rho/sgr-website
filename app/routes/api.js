@@ -1,24 +1,17 @@
-// ==============================================
-// GET DEPENDENCIES
-// ==============================================
+// dependencies
 var bodyParser 	= require('body-parser'),
 		User       	= require('../models/user'),
 		jwt        	= require('jsonwebtoken'),		// for creating JSON web tokens
 		config     	= require('../../config'),
 		superSecret = config.secret;							//secret hash stored server side
 
-// ==============================================
-// EXPORT THE MODULE
-// ==============================================
+// export the module
 module.exports = function(app, express) {
 
-	//get an instance of the router
+	// get an instance of the router
 	var apiRouter = express.Router();
 
-
-	// ==============================================
-	// GENERATE SAMPLE USER - POST host/api/sample
-	// ==============================================
+	// generates a sample user, hard coded
 	apiRouter.post('/sample', function(req, res) {
 
 		// look for the user named ebony
@@ -27,27 +20,19 @@ module.exports = function(app, express) {
 			// if there is no Ebony user, create one
 			if (!user) {
 				var sampleUser = new User();
-
-				sampleUser.name = 'Ebony Lea';
+				sampleUser.name 		= 'Ebony Lea';
 				sampleUser.username = 'ebony';
 				sampleUser.password = 'secret';
-
 				sampleUser.save();
 			} else {
-				console.log(user);
-
-				// if there is an ebony, update his password
+				// if there is an ebony, update her password
 				user.password = 'secret';
 				user.save();
 			}
-
 		});
-
 	});
 
-	// ==============================================
-	// AUTHENTICATE USER - POST host/api/authenticate
-	// ==============================================
+	// authenticate's a user
 	apiRouter.post('/authenticate', function(req, res) {
 
 	  // find the user
@@ -80,7 +65,7 @@ module.exports = function(app, express) {
 	        	name: user.name,
 	        	username: user.username
 	        }, superSecret, {
-	          expiresInMinutes: 1440 // expires in 24 hours
+	          expiresIn: 86400
 	        });
 
 	        // return the information including token as JSON
@@ -90,59 +75,48 @@ module.exports = function(app, express) {
 	          token: token
 	        });
 	      }
-
 	    }
-
 	  });
 	});
 
-	// ==============================================
-	// VERIFY ALL TOKENS
-	// ==============================================
+	// this filters any other request to the api. must have an appropriate token.
 	apiRouter.use(function(req, res, next) {
 
 	  // check header or url parameters or post parameters for token
 	  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+		console.log('Token is: ' + token);
 
-	  // decode token
-	  if (token) {
+		if (token) {
 
 	    // verifies secret and checks exp
 	    jwt.verify(token, superSecret, function(err, decoded) {
-
-	      if (err) {
-	        res.status(403).send({
-	        	success: false,
-	        	message: 'Failed to authenticate token.'
-	    	});
-	      } else {
+	      if (err)
+	        return res.json({ success: false, message: 'Failed to authenticate token.' });
+	      else
 	        // if everything is good, save to request for use in other routes
 	        req.decoded = decoded;
-
-	        next(); // make sure we go to the next routes and don't stop here
-	      }
 	    });
-
 	  } else {
 
 	    // if there is no token
 	    // return an HTTP response of 403 (access forbidden) and an error message
-   	 	res.status(403).send({
+   	 	return res.status(403).send({
    	 		success: false,
    	 		message: 'No token provided.'
    	 	});
-
 	  }
+	  next(); // make sure we go to the next routes and don't stop here
 	});
 
-	// ==============================================
-	// CHAIN ROUTES FOR host/api/users
-	// ==============================================
+	// verify we are in the api
+	apiRouter.get('/', function(req, res) {
+  	res.json({ message: 'Succesfully accessed the api.' });
+	});
+
+	// chain routes for all users
 	apiRouter.route('/users')
 
-		// ==============================================
-		// CREATE USER - POST host/api/users
-		// ==============================================
+		// post a new user
 		.post(function(req, res) {
 
 			var user = new User();							// create a new instance of the User model
@@ -162,12 +136,9 @@ module.exports = function(app, express) {
 				// return a message
 				res.json({ message: 'User created!' });
 			});
-
 		})
 
-		// ==============================================
-		// GET USERS - GET host/api/users
-		// ==============================================
+		// get all users
 		.get(function(req, res) {
 
 			User.find({}, function(err, users) {
@@ -178,14 +149,10 @@ module.exports = function(app, express) {
 			});
 		});
 
-	// ==============================================
-	// CHAIN ROUTES FOR host/api/users/:user_id
-	// ==============================================
+	// chain routes for a specific user
 	apiRouter.route('/users/:user_id')
 
-		// ==============================================
-		// GET A USER - GET host/api/users/:user_id
-		// ==============================================
+		// get a specific user
 		.get(function(req, res) {
 			User.findById(req.params.user_id, function(err, user) {
 				if (err) res.send(err);
@@ -195,9 +162,7 @@ module.exports = function(app, express) {
 			});
 		})
 
-		// ==============================================
-		// UPDATE A USER - PUT host/api/users/:user_id
-		// ==============================================
+		// update a specific user
 		.put(function(req, res) {
 			User.findById(req.params.user_id, function(err, user) {
 
@@ -215,13 +180,10 @@ module.exports = function(app, express) {
 					// return a message
 					res.json({ message: 'User updated!' });
 				});
-
 			});
 		})
 
-		// ==============================================
-		// DELETE A USER - DELETE host/api/users/:user_id
-		// ==============================================
+		// delete a specific user
 		.delete(function(req, res) {
 			User.remove({
 				_id: req.params.user_id
@@ -232,15 +194,11 @@ module.exports = function(app, express) {
 			});
 		});
 
-	// ==============================================
-	// GET CURRENT USER - GET host/api/me
-	// ==============================================
+	// get the current user that's logged in
 	apiRouter.get('/me', function(req, res) {
 		res.send(req.decoded);
 	});
 
-	// ==============================================
-	// RETURN ROUTER
-	// ==============================================
+	// return the router
 	return apiRouter;
 };

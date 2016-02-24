@@ -59,10 +59,12 @@
 				<li ng-if="main.loggedIn"><a href="/users"><span class="glyphicon glyphicon-user"></span> Users</a></li>
 				<li ng-if="!main.loggedIn"></li>
 			</ul>
-
+            
 			<!-- Collapsable Nav Bar Options -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
+                    <!-- This is currently directly linked to Ebony's profile. Need to figure out a way to link it dynamically-->
+                    <li ni-if="main.loggedIn"><a ng-href="/users/profile/56be5848fe2df425036486c4">Profile</a></li>
 					<li ng-if="!main.loggedIn"><a href="/login">Login</a></li>
 					<li ng-if="main.loggedIn"><a href="#" ng-click="main.doLogout()">Logout</a></li>
 				</ul>
