@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "express": "latest",
+    "mongoose": "^4.4.6",
     "nodemon": "^1.9.1",
     "socket.io": "latest"
   }

@@ -1,3 +1,13 @@
+/*
+
+Author: Purnell Jones
+File: chatScript.js
+Descripton: Access the id tags from chat HTML page to modify, append and update the chat window.
+Tutorial Author: Smitha Milli
+Tutorial Link: https://www.youtube.com/watch?v=pNKNYLv2BpQ
+
+*/
+
 jQuery(function($){
 	// passed by socket.io.js import script
 	var socket = io.connect();
@@ -49,10 +59,23 @@ jQuery(function($){
 		// Clear the text within the textbox
 		$messageBox.val('');
 	});
-	/* Receive the message on the client side */
+
+	// Receives event on the user side
+	socket.on('load old msgs', function(docs){
+		// interates from bottom (last message) to top (most recent message)
+		for (var i = docs.length-1; i >= 0; i--) {
+			displayMsg(docs[i]);
+		};
+	});
+
+	/* Receive the message on the client side from the database*/
 	socket.on('new message' ,function(data){
 		/* Displays the message using jQuery*/
-		$chat.append('<b>' + data.nick + '</b>: ' + data.msg +"<br/>");
+		displayMsg(data);
 
 	});
+
+	function displayMsg(data){
+		$chat.append('<b>' + data.nick + '</b>: ' + data.msg +"<br/>");
+	}
 });
