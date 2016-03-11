@@ -17,7 +17,7 @@ module.exports = function(app, express) {
 
 	/*
 	// ==============================================
-	// GENERATE SAMPLE USER - POST host/api/sample
+	// GENERATE SAMPLE USER - POST host/api/sample -- TEMPORARY
 	// ==============================================
 	apiRouter.post('/sample', function(req, res) {
 		// look for the user named ebony
@@ -76,55 +76,28 @@ module.exports = function(app, express) {
 		  });
 		});
 
-
-
-
-
-
-
-
-
-
-
 	// ==============================================
 	// VERIFY ALL TOKENS
 	// ==============================================
 	apiRouter.use(function(req, res, next) {
 
-	  // check header or url parameters or post parameters for token
-	  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+		// check header or url parameters or post parameters for token
+		var token = req.body.token || req.query.token || req.headers['x-access-token'] || req.headers['token'];
 
-	  // decode token
-	  if (token) {
-
-	    // verifies secret and checks exp
-	    jwt.verify(token, superSecret, function(err, decoded) {
-
-	      if (err) {
-	        res.status(403).send({
-	        	success: false,
-	        	message: 'Failed to authenticate token.'
-	    	});
-	      } else {
-	        // if everything is good, save to request for use in other routes
-	        req.decoded = decoded;
-
-	        next(); // make sure we go to the next routes and don't stop here
-	      }
-	    });
-
-	  } else {
-
-	    // if there is no token
-	    // return an HTTP response of 403 (access forbidden) and an error message
-   	 	res.status(403).send({
-   	 		success: false,
-   	 		message: 'No token provided.'
-   	 	});
-
-	  }
+		if (token) {
+			jwt.verify(token, superSecret, function(err, decoded) {
+				if (err)
+					res.status(403).send({ success: false, message: '403 - Forbidden: Invalid token.' });
+				else {
+					req.decoded = decoded;        //save to request for use in other routes
+					next();
+				}
+			});
+		}
+		else {
+			res.status(403).send({ success: false, message: '403 - Forbidden: No token.' });
+		}
 	});
-
 
 	// ==============================================
 	// GET CURRENT USER - GET host/api/me
@@ -140,9 +113,38 @@ module.exports = function(app, express) {
 	      res.status(200).send({ success: true, message: '200 - OK: Successfully retrieved logged in user.', info: brother });
 	    }
 	  });
-
-		//res.send(req.decoded);
 	});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

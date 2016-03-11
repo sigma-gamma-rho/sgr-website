@@ -81,7 +81,7 @@ angular.module('userCtrl', ['userService'])
 .controller('userProfileController', function($routeParams, User){
     var vm = this;
 
-    
+
     // ==============================================
 	// GET THE USER TO EDIT BASED ON ID
 	// ==============================================

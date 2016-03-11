@@ -3,7 +3,7 @@ angular.module('authService', [])
 // ===============================================
 // INJECT DEPENDENCIES
 // ==============================================
-.factory('Auth', function($http, $q, AuthToken) {
+.factory('Auth', function($http, $q, $window) {
 
 	// factories return objects
 	var authFactory = {};
@@ -17,11 +17,7 @@ angular.module('authService', [])
 		return $http.post('/api/authenticate', {
 			username: username,
 			password: password
-		})
-			.success(function(data) {
-				AuthToken.setToken(data.token);
-       			return data;
-			});
+		});
 	};
 
 	// ==============================================
@@ -29,8 +25,7 @@ angular.module('authService', [])
 	// ==============================================
 	//set token to nothing
 	authFactory.logout = function() {
-		// clear the token
-		AuthToken.setToken();
+		$window.localStorage.removeItem('token');
 	};
 
 	// ==============================================
@@ -39,7 +34,7 @@ angular.module('authService', [])
 	// check if a user is logged in
 	// checks if there is a local token
 	authFactory.isLoggedIn = function() {
-		if (AuthToken.getToken())
+		if ($window.localStorage.getItem('token'))
 			return true;
 		else
 			return false;
@@ -64,37 +59,11 @@ angular.module('authService', [])
 
 })
 
-// ===================================================
-// INJECT DEPENDENCIES
-// ===================================================
-// for handling tokens, inject  $window to store token client-side
-.factory('AuthToken', function($window) {
-
-	//factories return objects
-	var authTokenFactory = {};
-
-	// get the token out of local storage
-	authTokenFactory.getToken = function() {
-		return $window.localStorage.getItem('token');
-	};
-
-	// function to set token or clear token
-	authTokenFactory.setToken = function(token) {
-		if (token)
-			$window.localStorage.setItem('token', token);
-	 	else
-			$window.localStorage.removeItem('token');
-	};
-
-	return authTokenFactory;
-
-})
-
-// ===================================================
+// ==================================================
 // INJECT DEPENDENCIES
 // ===================================================
 // send token on every request, http is stateless
-.factory('AuthInterceptor', function($q, $location, AuthToken) {
+.factory('AuthInterceptor', function($q, $location, $window) {
 
 	// factories return objects
 	var interceptorFactory = {};
@@ -104,12 +73,11 @@ angular.module('authService', [])
 	// ===================================================
 	interceptorFactory.request = function(config) {
 
-		// grab the token
-		var token = AuthToken.getToken();
-
+		var token = $window.localStorage.getItem('token');
 		// if the token exists, add it to the header as x-access-token
-		if (token)
+		if (token){
 			config.headers['x-access-token'] = token;
+		}
 
 		return config;
 	};
@@ -119,13 +87,18 @@ angular.module('authService', [])
 	// ===================================================
 	interceptorFactory.responseError = function(response) {
 
-		// if our server returns a 403 forbidden response
-		if (response.status == 403) {
-			AuthToken.setToken();
-			$location.path('/login');
+		// if our server returns a 401 unauthorized response
+		if (response.status == 401) {
+		  $window.localStorage.removeItem('token');
 		}
 
-		// return the errors from the server as a promise
+		// if our server returns a 403 forbidden response
+		if (response.status == 403) {
+		  $window.localStorage.removeItem('token');
+		  $location.path('/login');
+		}
+
+		// ***************************************
 		return $q.reject(response);
 	};
 
