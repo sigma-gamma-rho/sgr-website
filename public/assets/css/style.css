@@ -1,12 +1,10 @@
-main 					{
-	padding-top:30px;
-}
-
 /* HEADER
 ===================== */
 header .navbar 		{
 	border-radius:0;
 	list-style: none;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
 }
 
 header li{
@@ -60,13 +58,52 @@ footer li{
 /* MODIFICATION OF BOOTSTRAP TEMPLATE */
 /*http://stackoverflow.com/questions/18529274/change-navbar-color-in-twitter-bootstrap-3*/
 .navbar-default {
-    background-color: #4169E1;
-    border-color: #E7E7E7;
+    background-color: #4169E1; 	/*Navy Blue*/
+    border-color: #E7E7E7; 			/* Gold*/
 }
 
 /* Title */
 .navbar-default .navbar-brand {
     color: gold;
+}
+
+/* Home Video*/
+
+#home-video{
+  display: block;
+  width: 800px;
+  height: 400px;
+  margin: 0 auto;
+  border: 0;
+}
+
+#home-bg{
+	height: 500px;
+  background-image:
+			linear-gradient(
+      rgba(0, 0, 0, 0.0),
+      rgba(0, 0, 0, 0.3)
+    ), url("../../app/views/images/SGRbg.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+}
+
+.home-text{
+
+	color: white;
+}
+
+.history-section h1{
+	text-align:center;
+}
+
+.history-section hr{
+	width: 50%;
+}
+
+.element-padding{
+	padding-bottom: 20px;
 }
 
 .ProfileHeader{
@@ -76,4 +113,6 @@ footer li{
     border-radius: 50%;
 }
 
-
+.fancy-fonts{
+	font-family: 'Brush Script MT', cursive;
+}
