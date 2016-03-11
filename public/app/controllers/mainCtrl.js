@@ -3,7 +3,7 @@ angular.module('mainCtrl', [])
 // ==============================================
 // INJECT DEPENDENCIES
 // ==============================================
-.controller('mainController', function($rootScope, $location, Auth) {
+.controller('mainController', function($rootScope, $location, $window, Auth) {
 
 	// better to use 'controller as' rather than $scope
 	var vm = this;
@@ -15,13 +15,27 @@ angular.module('mainCtrl', [])
 	// CALL A SERVICE TO CHECK IF LOGGED ON
 	// ==============================================
 	$rootScope.$on('$routeChangeStart', function() {
+
+		// refresh logged on user
 		vm.loggedIn = Auth.isLoggedIn();
-		console.log(vm.loggedIn);
-		Auth.getUser()
-			.then(function(data) {
-				vm.user = data.data;
+
+		// update the info if logged in
+		if(vm.loggedIn && $window.localStorage.getItem('token')){
+			Auth.getUser()
+			.success(function(res){
+				if (res.success){
+					vm.user = res.info;
+					console.log(JSON.stringify(res.info));
+					console.log(res.message);
+				}
+			})
+			.error(function(res){
+				console.log (res.message);
 			});
+		}
 	});
+
+
 
 	// ==============================================
 	// CALL A SERVICE TO LOGIN A USER
