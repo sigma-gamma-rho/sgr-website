@@ -1,5 +1,2 @@
-# Modules
-node_modules
-
-# Configuration file
+node_modules/
 config.js
