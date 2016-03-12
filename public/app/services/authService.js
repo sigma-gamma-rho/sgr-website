@@ -65,6 +65,7 @@ angular.module('authService', [])
 // send token on every request, http is stateless
 .factory('AuthInterceptor', function($q, $location, $window) {
 
+
 	// factories return objects
 	var interceptorFactory = {};
 
@@ -74,6 +75,7 @@ angular.module('authService', [])
 	interceptorFactory.request = function(config) {
 
 		var token = $window.localStorage.getItem('token');
+
 		// if the token exists, add it to the header as x-access-token
 		if (token){
 			config.headers['x-access-token'] = token;

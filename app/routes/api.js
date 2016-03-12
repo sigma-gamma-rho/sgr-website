@@ -1,46 +1,41 @@
-// ==============================================
-// GET DEPENDENCIES
-// ==============================================
+// dependencies
 var bodyParser 	= require('body-parser'),
 		User       	= require('../models/user'),
 		jwt        	= require('jsonwebtoken'),		// for creating JSON web tokens
 		config     	= require('../../config'),
 		superSecret = config.secret;							//secret hash stored server side
 
-// ==============================================
-// EXPORT THE MODULE
-// ==============================================
+// export the module
 module.exports = function(app, express) {
 
-	//get an instance of the router
+	// get an instance of the router
 	var apiRouter = express.Router();
 
 	/*
 	// ==============================================
 	// GENERATE SAMPLE USER - POST host/api/sample -- TEMPORARY
 	// ==============================================
+	// generates a sample user, hard coded
 	apiRouter.post('/sample', function(req, res) {
 		// look for the user named ebony
 		User.findOne({ 'username': 'Ebony' }, function(err, user) {
 			// if there is no Ebony user, create one
 			if (!user) {
 				var sampleUser = new User();
-				sampleUser.name = 'Ebony Lea';
+				sampleUser.name 		= 'Ebony Lea';
 				sampleUser.username = 'ebony';
 				sampleUser.password = 'secret';
 				sampleUser.save();
 			} else {
 				console.log(user);
-				// if there is an ebony, update his password
+				// if there is an ebony, update her password
 				user.password = 'secret';
 				user.save();
 			}
 		});
 	});*/
 
-	// ==============================================
-	// AUTHENTICATE USER - POST host/api/authenticate
-	// ==============================================
+	// authenticate's a user
 	apiRouter.post('/authenticate', function(req, res) {
 
 	  // find the user
@@ -76,9 +71,8 @@ module.exports = function(app, express) {
 		  });
 		});
 
-	// ==============================================
-	// VERIFY ALL TOKENS
-	// ==============================================
+
+	// this filters any other request to the api. must have an appropriate token.
 	apiRouter.use(function(req, res, next) {
 
 		// check header or url parameters or post parameters for token
@@ -115,71 +109,15 @@ module.exports = function(app, express) {
 	  });
 	});
 
+	// verify we are in the api
+	apiRouter.get('/', function(req, res) {
+  	res.json({ message: 'Succesfully accessed the api.' });
+	});
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// ==============================================
-	// CHAIN ROUTES FOR host/api/users
-	// ==============================================
+	// chain routes for all users
 	apiRouter.route('/users')
 
-		// ==============================================
-		// CREATE USER - POST host/api/users
-		// ==============================================
+		// post a new user
 		.post(function(req, res) {
 
 			var user = new User();							// create a new instance of the User model
@@ -199,12 +137,9 @@ module.exports = function(app, express) {
 				// return a message
 				res.json({ message: 'User created!' });
 			});
-
 		})
 
-		// ==============================================
-		// GET USERS - GET host/api/users
-		// ==============================================
+		// get all users
 		.get(function(req, res) {
 
 			User.find({}, function(err, users) {
@@ -215,14 +150,10 @@ module.exports = function(app, express) {
 			});
 		});
 
-	// ==============================================
-	// CHAIN ROUTES FOR host/api/users/:user_id
-	// ==============================================
+	// chain routes for a specific user
 	apiRouter.route('/users/:user_id')
 
-		// ==============================================
-		// GET A USER - GET host/api/users/:user_id
-		// ==============================================
+		// get a specific user
 		.get(function(req, res) {
 			User.findById(req.params.user_id, function(err, user) {
 				if (err) res.send(err);
@@ -232,9 +163,7 @@ module.exports = function(app, express) {
 			});
 		})
 
-		// ==============================================
-		// UPDATE A USER - PUT host/api/users/:user_id
-		// ==============================================
+		// update a specific user
 		.put(function(req, res) {
 			User.findById(req.params.user_id, function(err, user) {
 
@@ -252,13 +181,10 @@ module.exports = function(app, express) {
 					// return a message
 					res.json({ message: 'User updated!' });
 				});
-
 			});
 		})
 
-		// ==============================================
-		// DELETE A USER - DELETE host/api/users/:user_id
-		// ==============================================
+		// delete a specific user
 		.delete(function(req, res) {
 			User.remove({
 				_id: req.params.user_id
@@ -269,8 +195,6 @@ module.exports = function(app, express) {
 			});
 		});
 
-	// ==============================================
-	// RETURN ROUTER
-	// ==============================================
+
 	return apiRouter;
 };

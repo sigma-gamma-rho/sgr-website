@@ -1,6 +1,4 @@
-// ==============================================
-// GET DEPENDENCIES
-// ==============================================
+//Dependencies this project needs
 var express    = require('express'),
 		app        = express(),
 		bodyParser = require('body-parser'),
@@ -13,6 +11,7 @@ var express    = require('express'),
 // APP CONFIGURATION
 // ==============================================
 // lets us get info from post requests
+// bodyparser lets us get info from post requests
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -24,24 +23,23 @@ app.use(function(req, res, next) {
 	next();
 });
 
-// log all requests
+// Log all requests
 app.use(morgan('dev'));
 
-//connect to mongolabs
+// Connect to mongolabs
 mongoose.connect(config.database);
 
-// location of static files
+// Location of static files
 app.use(express.static(__dirname + '/public'));
 
 // ==============================================
 // ROUTING
 // ==============================================
-
 // for host/api
 var apiRoutes = require('./app/routes/api')(app, express);
 app.use('/api', apiRoutes);
 
-// send users to front end
+// all other requests get sent to angular
 app.get('*', function(req, res) {
 	res.sendFile(path.join(__dirname + '/public/app/views/index.html'));
 });
@@ -49,5 +47,6 @@ app.get('*', function(req, res) {
 // ==============================================
 // SERVER START
 // ==============================================
+// start the server
 app.listen(config.port);
 console.log('Starting on port ' + config.port);

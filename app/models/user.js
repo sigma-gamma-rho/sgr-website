@@ -1,13 +1,8 @@
-// ==============================================
-// GET DEPENDENCIES
-// ==============================================
+// Dependencies
 var mongoose  = require('mongoose'),
 		Schema    = mongoose.Schema,
 		bcrypt 	 = require('bcrypt-nodejs');
 
-// ==============================================
-// DEFINE THE SCHEMA
-// ==============================================
 // user schema
 var UserSchema   = new Schema({
 	name: String,
@@ -23,9 +18,6 @@ var UserSchema   = new Schema({
 	}
 });
 
-// ==============================================
-// MONGOOSE MIDDLEWARE
-// ==============================================
 // hash the password before the user is saved
 UserSchema.pre('save', function(next) {
 
@@ -44,16 +36,11 @@ UserSchema.pre('save', function(next) {
 	});
 });
 
-// ==============================================
-// CUSTOM METHODS
-// ==============================================
 // method to compare a given password with the database hash
 UserSchema.methods.comparePassword = function(password) {
 	var user = this;
 	return bcrypt.compareSync(password, user.password);
 };
 
-// ==============================================
-// EXPORT THE MODULE
-// ==============================================
+// export the module
 module.exports = mongoose.model('User', UserSchema);
