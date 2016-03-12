@@ -7,6 +7,10 @@ var express    = require('express'),
 		config 	   = require('./config'),
 		path 	   	 = require('path');
 
+// ==============================================
+// APP CONFIGURATION
+// ==============================================
+// lets us get info from post requests
 // bodyparser lets us get info from post requests
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -28,7 +32,10 @@ mongoose.connect(config.database);
 // Location of static files
 app.use(express.static(__dirname + '/public'));
 
-// requests to host/api get sent here
+// ==============================================
+// ROUTING
+// ==============================================
+// for host/api
 var apiRoutes = require('./app/routes/api')(app, express);
 app.use('/api', apiRoutes);
 
@@ -37,6 +44,9 @@ app.get('*', function(req, res) {
 	res.sendFile(path.join(__dirname + '/public/app/views/index.html'));
 });
 
+// ==============================================
+// SERVER START
+// ==============================================
 // start the server
 app.listen(config.port);
 console.log('Starting on port ' + config.port);

@@ -3,7 +3,7 @@ angular.module('mainCtrl', [])
 // ==============================================
 // INJECT DEPENDENCIES
 // ==============================================
-.controller('mainController', function($rootScope, $location, Auth) {
+.controller('mainController', function($rootScope, $location, $window, Auth) {
 
 	// better to use 'controller as' rather than $scope
 	var vm = this;
@@ -15,34 +15,49 @@ angular.module('mainCtrl', [])
 	// CALL A SERVICE TO CHECK IF LOGGED ON
 	// ==============================================
 	$rootScope.$on('$routeChangeStart', function() {
+
+		// refresh logged on user
 		vm.loggedIn = Auth.isLoggedIn();
 
-		Auth.getUser()
-			.then(function(data) {
-				vm.user = data.data;
+		// update the info if logged in
+		if(vm.loggedIn && $window.localStorage.getItem('token')){
+			Auth.getUser()
+			.success(function(res){
+				if (res.success){
+					vm.user = res.info;
+					console.log(JSON.stringify(res.info));
+					console.log(res.message);
+				}
+			})
+			.error(function(res){
+				console.log (res.message);
 			});
+		}
 	});
 
 	// ==============================================
 	// CALL A SERVICE TO LOGIN A USER
 	// ==============================================
 	vm.doLogin = function() {
+		// clear the error and set spinner
 		vm.processing = true;
-
-		// clear the error
 		vm.error = '';
-
+		// log the user in
 		Auth.login(vm.loginData.username, vm.loginData.password)
-			.success(function(data) {
+		.success(function(res){
+			if (res.success){
 				vm.processing = false;
-
-				// if a user successfully logs in, redirect to users page
-				if (data.success)
-					$location.path('/users');
-				else
-					vm.error = data.message;
-
-			});
+				$window.localStorage.setItem('token', res.token);
+				$location.path('/users');
+				console.log(res.message);
+			}
+		})
+		.error(function(res){
+			if (!res.success){
+				vm.error = res.message;
+				console.log(res.message);
+			}
+		});
 	};
 
 	// ==============================================
@@ -50,13 +65,15 @@ angular.module('mainCtrl', [])
 	// ==============================================
 	vm.doLogout = function() {
 		Auth.logout();
+		console.log('Token removed. You have successfully logged out.');
 		vm.user = '';
-
 		$location.path('/login');
+		vm.loggedIn = false;
 	};
 
+	/*******************************************************************************/
 	// ==============================================
-	// CALL A SERVICE TO CREATE A SAMPLE USER
+	// Temporary. Incase anyone decies to nuke the users
 	// ==============================================
 	vm.createSample = function() {
 		Auth.createSampleUser();

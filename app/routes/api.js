@@ -11,12 +11,14 @@ module.exports = function(app, express) {
 	// get an instance of the router
 	var apiRouter = express.Router();
 
+	/*
+	// ==============================================
+	// GENERATE SAMPLE USER - POST host/api/sample -- TEMPORARY
+	// ==============================================
 	// generates a sample user, hard coded
 	apiRouter.post('/sample', function(req, res) {
-
 		// look for the user named ebony
 		User.findOne({ 'username': 'Ebony' }, function(err, user) {
-
 			// if there is no Ebony user, create one
 			if (!user) {
 				var sampleUser = new User();
@@ -25,86 +27,86 @@ module.exports = function(app, express) {
 				sampleUser.password = 'secret';
 				sampleUser.save();
 			} else {
+				console.log(user);
 				// if there is an ebony, update her password
 				user.password = 'secret';
 				user.save();
 			}
 		});
-	});
+	});*/
 
 	// authenticate's a user
 	apiRouter.post('/authenticate', function(req, res) {
 
 	  // find the user
-	  User.findOne({
-	    username: req.body.username
-	  }).select('name username password').exec(function(err, user) {
+	  User.findOne({username: req.body.username})
+		.select('name username password')
+		.exec(function(err, user) {
 
-	    if (err) throw err;
-
-	    // no user with that username was found
-	    if (!user) {
-	      res.json({
-	      	success: false,
-	      	message: 'Authentication failed. User not found.'
-	    	});
-	    } else if (user) {
-
-	      // check if password matches
-	      var validPassword = user.comparePassword(req.body.password);
-	      if (!validPassword) {
-	        res.json({
-	        	success: false,
-	        	message: 'Authentication failed. Wrong password.'
-	      	});
-	      } else {
-
-	        // if user is found and password is right
-	        // create a token
-	        var token = jwt.sign({
-	        	name: user.name,
-	        	username: user.username
-	        }, superSecret, {
-	          expiresIn: 86400
-	        });
-
-	        // return the information including token as JSON
-	        res.json({
-	          success: true,
-	          message: 'Enjoy your token!',
-	          token: token
-	        });
-	      }
+			if (err){
+	      res.status(500).send({ success: false, message: '500 - Internal Server Error: ' + err });
 	    }
-	  });
-	});
+
+			// if not found, return false
+			if (!user)
+				res.status(401).send({ success: false, message: '401 - Unauthorized: User/password incorrect.' });
+
+				else if (user) {
+		      // check passwords
+		      var validPassword = user.comparePassword(req.body.password);
+		      if (!validPassword)
+		        res.status(401).send({ success: false, message: '401 - Unauthorized: User/password incorrect.' });
+
+		      // sign a token if all is OK
+		      else {
+		        console.log('Signing a token');
+		        var token = jwt.sign({
+		          name: user.name,
+		          username: user.username },
+		          superSecret,
+		          {expiresInMinutes: 1440});
+		        res.status(200).send({ success: true,  message: '200 - OK: Successfully created token.', token: token });
+		      }
+		    }
+		  });
+		});
+
 
 	// this filters any other request to the api. must have an appropriate token.
 	apiRouter.use(function(req, res, next) {
 
-	  // check header or url parameters or post parameters for token
-	  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+		// check header or url parameters or post parameters for token
+		var token = req.body.token || req.query.token || req.headers['x-access-token'] || req.headers['token'];
 
 		if (token) {
+			jwt.verify(token, superSecret, function(err, decoded) {
+				if (err)
+					res.status(403).send({ success: false, message: '403 - Forbidden: Invalid token.' });
+				else {
+					req.decoded = decoded;        //save to request for use in other routes
+					next();
+				}
+			});
+		}
+		else {
+			res.status(403).send({ success: false, message: '403 - Forbidden: No token.' });
+		}
+	});
 
-	    // verifies secret and checks exp
-	    jwt.verify(token, superSecret, function(err, decoded) {
-	      if (err)
-	        return res.json({ success: false, message: 'Failed to authenticate token.' });
-	      else
-	        // if everything is good, save to request for use in other routes
-	        req.decoded = decoded;
-	    });
-	  } else {
+	// ==============================================
+	// GET CURRENT USER - GET host/api/me
+	// ==============================================
+	apiRouter.get('/me', function(req, res) {
 
-	    // if there is no token
-	    // return an HTTP response of 403 (access forbidden) and an error message
-   	 	return res.status(403).send({
-   	 		success: false,
-   	 		message: 'No token provided.'
-   	 	});
-	  }
-	  next(); // make sure we go to the next routes and don't stop here
+		User.findOne({ username: req.decoded.username })
+		.exec(function(err, brother) {
+	    if (err){
+	      res.status(500).send({ success: false, message: '500 - Internal Server Error: ' + err });
+	    }
+	    else {
+	      res.status(200).send({ success: true, message: '200 - OK: Successfully retrieved logged in user.', info: brother });
+	    }
+	  });
 	});
 
 	// verify we are in the api
@@ -193,11 +195,6 @@ module.exports = function(app, express) {
 			});
 		});
 
-	// get the current user that's logged in
-	apiRouter.get('/me', function(req, res) {
-		res.send(req.decoded);
-	});
 
-	// return the router
 	return apiRouter;
 };
