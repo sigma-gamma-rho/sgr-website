@@ -16,12 +16,18 @@ angular.module('app.routes', ['ngRoute'])
     			controllerAs: 'login'
 		})
 
+
 		// show all users
-		.when('/users', {
+		.when('/admin', {
 			templateUrl: 'app/views/pages/users/all.html',
-			controller: 'userController',
-			controllerAs: 'user'
+			controller: 'adminController',
+			controllerAs: 'admin'
 		})
+
+
+
+
+
 
 		// create a new user
 		.when('/users/create', {
@@ -43,7 +49,7 @@ angular.module('app.routes', ['ngRoute'])
             controller: 'userProfileController',
             controllerAs: 'user'
         })
-    
+
 
 		.otherwise({
 			redirectTo: '/login'

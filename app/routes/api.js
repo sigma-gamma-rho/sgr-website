@@ -11,30 +11,7 @@ module.exports = function(app, express) {
 	// get an instance of the router
 	var apiRouter = express.Router();
 
-	/*
-	// ==============================================
-	// GENERATE SAMPLE USER - POST host/api/sample -- TEMPORARY
-	// ==============================================
-	// generates a sample user, hard coded
-	apiRouter.post('/sample', function(req, res) {
-		// look for the user named ebony
-		User.findOne({ 'username': 'Ebony' }, function(err, user) {
-			// if there is no Ebony user, create one
-			if (!user) {
-				var sampleUser = new User();
-				sampleUser.name 		= 'Ebony Lea';
-				sampleUser.username = 'ebony';
-				sampleUser.password = 'secret';
-				sampleUser.save();
-			} else {
-				console.log(user);
-				// if there is an ebony, update her password
-				user.password = 'secret';
-				user.save();
-			}
-		});
-	});*/
-
+/********************************************************************************/
 	// authenticate's a user
 	apiRouter.post('/authenticate', function(req, res) {
 
@@ -42,7 +19,6 @@ module.exports = function(app, express) {
 	  User.findOne({username: req.body.username})
 		.select('name username password')
 		.exec(function(err, user) {
-
 			if (err){
 	      res.status(500).send({ success: false, message: '500 - Internal Server Error: ' + err });
 	    }
@@ -71,7 +47,7 @@ module.exports = function(app, express) {
 		  });
 		});
 
-
+/********************************************************************************/
 	// this filters any other request to the api. must have an appropriate token.
 	apiRouter.use(function(req, res, next) {
 
@@ -93,9 +69,8 @@ module.exports = function(app, express) {
 		}
 	});
 
-	// ==============================================
-	// GET CURRENT USER - GET host/api/me
-	// ==============================================
+/********************************************************************************/
+	// this returns the current users info
 	apiRouter.get('/me', function(req, res) {
 
 		User.findOne({ username: req.decoded.username })
@@ -109,49 +84,116 @@ module.exports = function(app, express) {
 	  });
 	});
 
-	// verify we are in the api
-	apiRouter.get('/', function(req, res) {
-  	res.json({ message: 'Succesfully accessed the api.' });
-	});
-
+/********************************************************************************/
 	// chain routes for all users
 	apiRouter.route('/users')
 
 		// post a new user
 		.post(function(req, res) {
-
-			var user = new User();							// create a new instance of the User model
-			user.name 		= req.body.name;  		// set the users name (comes from the request)
-			user.username = req.body.username;  // set the users username (comes from the request)
-			user.password = req.body.password;  // set the users password (comes from the request)
-
+			var user = new User();
+			user.name 		= req.body.name;
+			user.username = req.body.username;
+			user.password = req.body.password;
+			user.admin		= req.body.admin;
 			user.save(function(err) {
 				if (err) {
-					// duplicate entry
-					if (err.code == 11000)
-						return res.json({ success: false, message: 'A user with that username already exists. '});
-					else
-						return res.send(err);
+					if (err.code === 11000) {
+						res.status(300).send({ success: false, message: '400 - Bad Request: Duplicate Roll/Username' });
+					}
+					else {
+							res.status(500).send({ success: false, message: '500 - Internal Server Error: ' + err });
+					}
 				}
-
-				// return a message
-				res.json({ message: 'User created!' });
+				else {
+					res.status(200).send({ success: true, message: '200 - OK: Brother created!', userId: user._id });
+				}
 			});
 		})
-
 		// get all users
 		.get(function(req, res) {
-
-			User.find({}, function(err, users) {
-				if (err) res.send(err);
-
-				// return the users
-				res.json(users);
+			User.find()
+			.sort('name')
+			.exec(function(err, users) {
+				if (err){
+					res.status(500).send({ success: false, message: '500 - Internal Server Error: ' + err });
+				}
+				else {
+					res.status(200).send({ success: true, message: '200 - OK: Successfully retrieved brothers.', info: users });
+				}
 			});
 		});
 
+/********************************************************************************/
 	// chain routes for a specific user
 	apiRouter.route('/users/:user_id')
+		// delete a specific user // if it is a valid id ...
+
+		.delete(function(req, res) {
+			// delete a specific user if it is a valid id ...
+			if (req.params.user_id.match(/^[0-9a-fA-F]{24}$/)) {
+				User.remove({_id: req.params.user_id}, function(err, user) {
+					if (err) {
+						res.status(500).send({ success: false, message: '500 - Internal Server Error: ' + err });
+					}
+					else {
+						res.status(200).send({ success: true, message: '200 - OK: Successfully deleted user.' });
+					}
+				});
+			}
+			// else, it was not a correct mongo id format
+			else {
+				res.status(400).send({ success: false, message: '400 - Bad Request: Id is incorrect format.' });
+			}
+		})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		// get a specific user
 		.get(function(req, res) {
@@ -162,7 +204,6 @@ module.exports = function(app, express) {
 				res.json(user);
 			});
 		})
-
 		// update a specific user
 		.put(function(req, res) {
 			User.findById(req.params.user_id, function(err, user) {
@@ -173,7 +214,7 @@ module.exports = function(app, express) {
 				if (req.body.name) user.name 				 = req.body.name;
 				if (req.body.username) user.username = req.body.username;
 				if (req.body.password) user.password = req.body.password;
-
+				if (req.body.admin) user.admin			 = req.body.admin;
 				// save the user
 				user.save(function(err) {
 					if (err) res.send(err);
@@ -183,17 +224,6 @@ module.exports = function(app, express) {
 				});
 			});
 		})
-
-		// delete a specific user
-		.delete(function(req, res) {
-			User.remove({
-				_id: req.params.user_id
-			}, function(err, user) {
-				if (err) res.send(err);
-
-				res.json({ message: 'Successfully deleted' });
-			});
-		});
 
 
 	return apiRouter;

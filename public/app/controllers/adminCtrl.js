@@ -1,49 +1,56 @@
-angular.module('userCtrl', ['userService'])
+angular.module('adminCtrl', ['userService'])
+.controller('adminController', function(User) {
+	var admin = this;
 
-// ==============================================
-// INJECT DEPENDENCIES
-// ==============================================
-.controller('userController', function(User) {
-
-	// better to use 'controller as' rather than $scope
-	var vm = this;
-
-	// set a processing variable for spinners
-	vm.processing = true;
-
-	// ==============================================
-	// CALL A SERVICE TO GET ALL USERS
-	// ==============================================
-	User.all()
-		.success(function(data) {
-
-			// when all the users come back, remove the spinner
-			vm.processing = false;
-
-			// bind the users that come back to vm.users
-			vm.users = data;
-		});
-
-	// ==============================================
-	// CALL A SERVICE TO DELETE A USER
-	// ==============================================
-	vm.deleteUser = function(id) {
-		vm.processing = true;
-
-		User.delete(id)
-			.success(function(data) {
-
-				// get all users to update the table
-				User.all()
-					.success(function(data) {
-						vm.processing = false;
-						vm.users = data;
-					});
-
+	// =========================================================================
+	// ====================This function sets up the page=======================
+	// =========================================================================
+	// initialize users
+	admin.init = function() {
+		User.all()
+			.then(function(res){
+				console.log(res)
+				if (res.data.success)
+					admin.users = res.data.info;
+				console.log(res.data.message);
 			});
 	};
+	admin.init();
 
+	// ===========================================================================
+	// ====================This allows the admin to delete users==================
+	// ===========================================================================
+	// delete a brothers information totally
+	admin.deleteUser = function(id) {
+		admin.delete(id);
+		admin.init();
+	};
+
+	admin.delete = function(id) {
+		User.delete(id)
+			.then(function(res){
+				console.log(res.data.message);
+			});
+	};
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // ==============================================
 // INJECT DEPENDENCIES
@@ -51,25 +58,25 @@ angular.module('userCtrl', ['userService'])
 // controller applied to user creation page
 .controller('userCreateController', function(User) {
 
-	var vm = this;
+	var admin = this;
 
 	// variable to hide/show elements of the view
 	// differentiates between create or edit pages
-	vm.type = 'create';
+	admin.type = 'create';
 
 	// ==============================================
 	// CALL A SERVICE TO SAVE A USER
 	// ==============================================
-	vm.saveUser = function() {
-		vm.processing = true;
-		vm.message = '';
+	admin.saveUser = function() {
+		admin.processing = true;
+		admin.message = '';
 
 		// use the create function in the userService
-		User.create(vm.userData)
+		User.create(admin.userData)
 			.success(function(data) {
-				vm.processing = false;
-				vm.userData = {};
-				vm.message = data.message;
+				admin.processing = false;
+				admin.userData = {};
+				admin.message = data.message;
 			});
 
 	};
@@ -79,7 +86,7 @@ angular.module('userCtrl', ['userService'])
 // INJECT DEPENDENCIES
 // ==============================================
 .controller('userProfileController', function($routeParams, User){
-    var vm = this;
+    var admin = this;
 
 
     // ==============================================
@@ -87,7 +94,7 @@ angular.module('userCtrl', ['userService'])
 	// ==============================================
 	User.get($routeParams.user_id)
 		.success(function(data) {
-			vm.userData = data;
+			admin.userData = data;
 		});
 
 })
@@ -99,36 +106,36 @@ angular.module('userCtrl', ['userService'])
 .controller('userEditController', function($routeParams, User) {
 
 	// better to use 'controller as' rather than $scope
-	var vm = this;
+	var admin = this;
 
 	// variable to determine if we should hide/show elements of the view
-	vm.type = 'edit';
+	admin.type = 'edit';
 
 	// ==============================================
 	// GET THE USER TO EDIT BASED ON ID
 	// ==============================================
 	User.get($routeParams.user_id)
 		.success(function(data) {
-			vm.userData = data;
+			admin.userData = data;
 		});
 
 	// ==============================================
 	// SAVE THE USERS NEW INFORMATION
 	// ==============================================
-	vm.saveUser = function() {
-		vm.processing = true;
-		vm.message = '';
+	admin.saveUser = function() {
+		admin.processing = true;
+		admin.message = '';
 
 		// call the userService function to update
-		User.update($routeParams.user_id, vm.userData)
+		User.update($routeParams.user_id, admin.userData)
 			.success(function(data) {
-				vm.processing = false;
+				admin.processing = false;
 
 				// clear the form
-				vm.userData = {};
+				admin.userData = {};
 
-				// bind the message from our API to vm.message
-				vm.message = data.message;
+				// bind the message from our API to admin.message
+				admin.message = data.message;
 			});
 	};
 

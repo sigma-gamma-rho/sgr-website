@@ -48,7 +48,7 @@ angular.module('mainCtrl', [])
 			if (res.success){
 				vm.processing = false;
 				$window.localStorage.setItem('token', res.token);
-				$location.path('/users');
+				$location.path('/');
 				console.log(res.message);
 			}
 		})

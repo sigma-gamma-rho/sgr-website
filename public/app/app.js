@@ -3,7 +3,7 @@ angular.module('userApp', [
 	'app.routes',
 	'authService',
 	'mainCtrl',
-	'userCtrl',
+	'adminCtrl',
 	'userService'
 ])
 
