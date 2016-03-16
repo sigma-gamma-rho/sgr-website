@@ -79,4 +79,21 @@ angular.module('mainCtrl', [])
 		Auth.createSampleUser();
 	};
 
+})
+// ==============================================
+// INJECT DEPENDENCIES
+// ==============================================
+// controller applied to main page
+.controller('userSignUpController', function($scope,$mdToast,$animate){
+    
+    this.sendMail = function(){
+        $http.post('/signupform',data).
+        success(function(data,status,headers,config){
+            
+        }).
+        error(function(data,status,headers,config){
+            
+        });
+    }
+    
 });
