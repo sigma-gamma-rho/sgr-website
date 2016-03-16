@@ -6,12 +6,12 @@ angular.module('app.routes', ['ngRoute'])
 
 		// default route
 		.when('/', {
-			templateUrl : 'app/views/pages/home.html'
+			templateUrl : 'views/home.html'
 		})
 
 		// login
 		.when('/login', {
-			templateUrl : 'app/views/pages/login.html',
+			templateUrl : 'views/login.html',
    			controller  : 'mainController',
     			controllerAs: 'login'
 		})
@@ -19,7 +19,7 @@ angular.module('app.routes', ['ngRoute'])
 
 		// show all users
 		.when('/admin', {
-			templateUrl: 'app/views/pages/users/all.html',
+			templateUrl: 'views/all.html',
 			controller: 'adminController',
 			controllerAs: 'admin'
 		})
@@ -31,21 +31,21 @@ angular.module('app.routes', ['ngRoute'])
 
 		// create a new user
 		.when('/users/create', {
-			templateUrl: 'app/views/pages/users/single.html',
+			templateUrl: 'views/single.html',
 			controller: 'userCreateController',
 			controllerAs: 'user'
 		})
 
 		// edit a user
 		.when('/users/:user_id', {
-			templateUrl: 'app/views/pages/users/single.html',
+			templateUrl: 'views/single.html',
 			controller: 'userEditController',
 			controllerAs: 'user'
 		})
         //page to see user profile
         //should work I should probably look at that
         .when('/users/profile/:user_id', {
-            templateUrl: 'app/views/pages/users/profile.html',
+            templateUrl: 'views/profile.html',
             controller: 'userProfileController',
             controllerAs: 'user'
         })

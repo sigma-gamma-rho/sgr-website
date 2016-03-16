@@ -83,7 +83,7 @@ footer li{
 			linear-gradient(
       rgba(0, 0, 0, 0.0),
       rgba(0, 0, 0, 0.3)
-    ), url("../../app/views/images/SGRbg.png");
+    ), url("../img/SGRbg.png");
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center;
