@@ -9,7 +9,7 @@ angular.module('adminCtrl', ['userService'])
 	admin.init = function() {
 		User.all()
 			.then(function(res){
-				console.log(res)
+				console.log(res);
 				if (res.data.success)
 					admin.users = res.data.info;
 				console.log(res.data.message);
