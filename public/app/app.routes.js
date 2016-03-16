@@ -13,7 +13,7 @@ angular.module('app.routes', ['ngRoute'])
 		.when('/login', {
 			templateUrl : 'app/views/pages/login.html',
    			controller  : 'mainController',
-    			controllerAs: 'login'
+    		controllerAs: 'login'
 		})
 
 		// show all users
@@ -43,8 +43,13 @@ angular.module('app.routes', ['ngRoute'])
             controller: 'userProfileController',
             controllerAs: 'user'
         })
-    
+        .when('/regional', {
+        	templateUrl: 'app/views/pages/regional/regional.html',
+        	controller: 'chatController',
+        	controllerAs: 'chat'
 
+        })
+    
 		.otherwise({
 			redirectTo: '/login'
 		});

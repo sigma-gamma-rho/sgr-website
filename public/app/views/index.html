@@ -14,6 +14,7 @@
 	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css">
 	<link rel="stylesheet" href="assets/css/style.css">
+	<link rel="stylesheet" href="assets/css/chat.css">
 
 	<!-- JS -->
 	<!-- load angular and angular-route via CDN -->
@@ -24,10 +25,13 @@
 	<!-- controllers -->
 	<script src="app/controllers/mainCtrl.js"></script>
 	<script src="app/controllers/userCtrl.js"></script>
+	<script src="app/controllers/chatCtrl.js"></script>
+
 
 	<!-- services -->
 	<script src="app/services/authService.js"></script>
 	<script src="app/services/userService.js"></script>
+	<script src="app/services/chatService.js"></script>
 
 	<!-- main Angular app files -->
 	<script src="app/app.routes.js"></script>
@@ -79,10 +83,14 @@
 
 <!-- JS FILES -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/assets/js/chatScript.js"></script>
 
-		<!-- FOOTER SECTION -->
-		<hr/>
+
+	<!-- FOOTER SECTION -->
+	<hr/>
 	<footer class="footer-align">
 	        <div class="container">
 	            <div class="row">
@@ -111,11 +119,8 @@
 	        </div>
 	</footer>
 
-	<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 
-		<script>
-
-
+	<script>
 			$(document).ready(function(){
 				resize();
 				function resize(){
@@ -132,9 +137,8 @@
 				$( window ).resize(function() {
 					resize();
 	            });
-		});
-
-		</script>
+			});
+	</script>
 
 </body>
 </html>

@@ -5,7 +5,21 @@ var express    = require('express'),
 		morgan     = require('morgan'),
 		mongoose   = require('mongoose'),
 		config 	   = require('./config'),
-		path 	   	 = require('path');
+		path 	   	 = require('path'),
+
+		socket = require('./app/routes/socket.js');
+		server = require('http').createServer(app);
+		io = require('socket.io').listen(server);
+
+		// Part 3 - chat Schema model
+var chatSchema = mongoose.Schema({
+	nick: String,
+	msg: String,
+	created: {type: Date, default: Date.now}
+});
+
+//model
+var Chat = mongoose.model('Message', chatSchema);
 
 // ==============================================
 // APP CONFIGURATION
@@ -27,7 +41,15 @@ app.use(function(req, res, next) {
 app.use(morgan('dev'));
 
 // Connect to mongolabs
-mongoose.connect(config.database);
+mongoose.connect(config.database, 
+	function(err){
+		if(err){
+			console.log(err);
+		}
+		else{
+			console.log('Connected to MongoLab');
+		}
+	});
 
 // Location of static files
 app.use(express.static(__dirname + '/public'));
@@ -44,9 +66,13 @@ app.get('*', function(req, res) {
 	res.sendFile(path.join(__dirname + '/public/app/views/index.html'));
 });
 
+/* Receive message on the server side */
+io.sockets.on('connection', socket);
+
 // ==============================================
 // SERVER START
 // ==============================================
 // start the server
-app.listen(config.port);
-console.log('Starting on port ' + config.port);
+server.listen(config.port, function(){
+	console.log('Listening to PORT: ' + config.port);
+});

@@ -1,5 +1,6 @@
 // dependencies
 var bodyParser 	= require('body-parser'),
+		Chat		= require('../models/chat'),
 		User       	= require('../models/user'),
 		jwt        	= require('jsonwebtoken'),		// for creating JSON web tokens
 		config     	= require('../../config'),
@@ -111,7 +112,7 @@ module.exports = function(app, express) {
 
 	// verify we are in the api
 	apiRouter.get('/', function(req, res) {
-  	res.json({ message: 'Succesfully accessed the api.' });
+  		res.json({ message: 'Succesfully accessed the api.' });
 	});
 
 	// chain routes for all users
