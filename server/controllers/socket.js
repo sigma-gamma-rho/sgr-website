@@ -2,9 +2,9 @@
 var userNames = (function () {
   var names = {};
 
-  var mongoose = require('mongoose');
-  var config     = require('../config/config.js');
-  var Chat = require('../models/chat.js')
+  var mongoose  = require('mongoose');
+  var config    = require('../config/config.js');
+  var Chat      = require('../models/chat.js')
 
   // connect to the database
   mongoose.connect(config.database, 
@@ -17,7 +17,6 @@ var userNames = (function () {
       }
   });
 
-  console.log(Chat);
 
   var claim = function (name) {
     if (!name || names[name]) {

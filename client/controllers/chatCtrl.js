@@ -19,7 +19,6 @@ angular
   });
 
   socket.on('user:join', function (data) {
-    console.log("Testing: ");
     $scope.messages.push({
       user: 'chatroom',
       text: 'User ' + data.name + ' has joined.'
