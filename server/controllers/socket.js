@@ -1,8 +1,4 @@
-// Keep track of which names are used so that there are no duplicates
-var userNames = (function () {
-  var names = {};
-
-  var mongoose  = require('mongoose');
+var mongoose  = require('mongoose');
   var config    = require('../config/config.js');
   var Chat      = require('../models/chat.js')
 
@@ -16,6 +12,12 @@ var userNames = (function () {
         console.log('Connected to MongoLab');
       }
   });
+
+// Keep track of which names are used so that there are no duplicates
+var userNames = (function () {
+  var names = {};
+
+  
 
 
   var claim = function (name) {
@@ -67,7 +69,13 @@ var userNames = (function () {
 // export function for listening to the socket
 module.exports = function (socket) {
   var name = userNames.getGuestName();
+  var query = Chat.find({});
 
+  query.sort('-created').limit(25).exec(function(err, docs){
+    if(err) throw err;
+    
+    socket.emit('load:old:messages', docs);
+  });
   // send the new user their name and a list of users
   socket.emit('init', {
     name: name,
@@ -81,6 +89,12 @@ module.exports = function (socket) {
 
   // broadcast a user's message to other users
   socket.on('send:message', function (data) {
+    // Saves message to MongoLabs
+    var newMsg = new Chat({name:name, msg: data.message});
+    newMsg.save(function(err){
+      if(err) throw err;
+    });
+
     socket.broadcast.emit('send:message', {
       user: name,
       text: data.message

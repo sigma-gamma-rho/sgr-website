@@ -3,7 +3,7 @@ var mongoose = require('mongoose'),
 
 // Chat Schema
 var chatSchema = new Schema({
-	name: {firstName: String, lastName: String},
+	name: String,
 	msg: String,
 	created: {type: Date, default: Date.now}
 });

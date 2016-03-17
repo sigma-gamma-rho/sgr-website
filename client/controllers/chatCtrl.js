@@ -17,10 +17,20 @@ angular
   socket.on('change:name', function (data) {
     changeName(data.oldName, data.newName);
   });
+  // faulty
+  socket.on('load:old:messages', function (docs) {
+    for (var i = docs.length - 1; i >= 0; i--) {
+      console.log(docs[i].name);
+      $scope.messages.push({
+        user: doc[i].name,
+        text: 'User ' + docs[i].name + ' has left.'
+      });
+    };
+  });
 
   socket.on('user:join', function (data) {
     $scope.messages.push({
-      user: 'chatroom',
+      user: '',
       text: 'User ' + data.name + ' has joined.'
     });
     $scope.users.push(data.name);
