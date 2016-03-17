@@ -1,0 +1,26 @@
+<div class = "ProfileHeader">
+    <h1>{{user.userData.name}}'s Page</h1>
+    <img class="img-circle" src="http://www.keybusinessnetwork.com.au/wp-content/uploads/2015/06/kbn-blank-profile-female.jpg" alt="ProfilePic" style="width:304px;height:228px;">
+    <form id        =  "uploadForm"
+     enctype   =  "multipart/form-data"
+     action    =  "/api/photo"
+     method    =  "post">
+        <br/>
+        <br/>
+        <input type="file"  class="form-control" name="userPhoto" />
+        <input type="submit" class="form-control" value="Upload Image" name="submit">
+    </form>
+    <br>
+    <br>
+    <h4>Chapter Location: Blah College</h4>
+
+<hr/>
+    <h2>About me</h2>
+</div>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+<br><br>
+<button class="btn btn-primary">EDIT</button>
+
+<!--About me text area for editing but doesn't work yet so whutev
+<textarea rows="4" cols="50" placeholder="Describe yourself here..."></textarea>-->
+</body>
