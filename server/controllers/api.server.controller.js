@@ -39,6 +39,31 @@ exports.authenticate = function(req, res){
       }
     });
 };
+
+
+/********************************************************************************/
+exports.read = function(req, res) {
+
+  // if it is a valid id ...
+  if (req.params.user_id.match(/^[0-9a-fA-F]{24}$/)) {
+
+    // find that brother with the given id
+    User.findById(req.params.user_id, function(err, user) {
+      if (err){
+        res.status(500).send({ success: false, message: '500 - Internal Server Error: ' + err });
+      }
+      else {
+        res.status(200).send({ success: true,  message: '200 - OK: Successfully retrieved brother info.', info: user });
+      }
+    });
+  }
+
+  // else, it was not a correct mongo id format
+  else {
+    res.status(400).send({ success: false, message: '400 - Bad Request: Invalid id format' });
+  }
+};
+
 /********************************************************************************/
 exports.tokens = function(req, res, next){
   // check header or url parameters or post parameters for token
@@ -71,6 +96,77 @@ exports.me =  function(req, res) {
   });
 };
 
+/********************************************************************************/
+exports.update = function(req, res) {
+
+  // if it is a valid id ...
+  if (req.params.user_id.match(/^[0-9a-fA-F]{24}$/)) {
+
+    // find the brother with the given id
+    User.findById(req.params.user_id, function(err, user) {
+
+      // if there is an error ...
+      if (err) {
+        res.status(500).send({ success: false, message: '500 - Internal Server Error: ' + err });
+      }
+
+      // set the new brother information if it exists in the request
+      if (req.body.username) user.username  = req.body.username;
+      if (req.body.password) user.password  = req.body.password;
+      if (req.body.name) user.name 				  = req.body.name;
+      if (req.body.admin) user.admin        = req.body.admin;
+
+
+      // save the newly updated brother
+      user.save(function(err) {
+        if (err){
+          if (err.code === 11000){
+            res.status(500).send({ success: false, message: '500 - Internal Server Error: Duplicate Username' });
+          }
+          else {
+            res.status(500).send({ success: false, message: '500 - Internal Server Error: ' + err });
+          }
+        }
+        else {
+          res.status(200).send({ success: true, message: '200 - OK: User updated!' });
+        }
+      });
+    });
+  }
+  // else, it was not a correct mongo id format
+  else {
+    res.status(400).send({ success: false, message: '400 - Bad Request: Invalid id format' });
+  }
+};
+/********************************************************************************/
+exports.delete = function(req, res) {
+  // delete a specific user if it is a valid id ...
+  if (req.params.user_id.match(/^[0-9a-fA-F]{24}$/)) {
+
+    User.findOne({_id: req.params.user_id})
+      .exec(function(err, user) {
+        if (err){
+          res.status(500).send({ success: false, message: '500 - Internal Server Error: ' + err });
+        }
+        if (user.admin){
+          res.status(400).send({ success: false, message: '400 - Bad Request: Cannot delete admin.' });
+        } else{
+          User.remove({_id: req.params.user_id}, function(err, user) {
+            if (err) {
+               res.status(500).send({ success: false, message: '500 - Internal Server Error: ' + err });
+            }
+            else {
+               res.status(200).send({ success: true, message: '200 - OK: Successfully deleted user.' });
+            }
+          });
+        }
+      });
+  }
+  // else, it was not a correct mongo id format
+  else {
+    res.status(400).send({ success: false, message: '400 - Bad Request: Id is incorrect format.' });
+  }
+};
 /********************************************************************************/
 exports.admin = function(req, res, next){
   User.findOne({ username: req.decoded.username })
@@ -123,116 +219,3 @@ exports.users = function(req, res) {
     }
   });
 };
-/********************************************************************************/
-exports.delete = function(req, res) {
-  // delete a specific user if it is a valid id ...
-  if (req.params.user_id.match(/^[0-9a-fA-F]{24}$/)) {
-
-    User.findOne({_id: req.params.user_id})
-      .exec(function(err, user) {
-        if (err){
-          res.status(500).send({ success: false, message: '500 - Internal Server Error: ' + err });
-        }
-        if (user.admin){
-          res.status(400).send({ success: false, message: '400 - Bad Request: Cannot delete admin.' });
-        } else{
-          User.remove({_id: req.params.user_id}, function(err, user) {
-            if (err) {
-               res.status(500).send({ success: false, message: '500 - Internal Server Error: ' + err });
-            }
-            else {
-               res.status(200).send({ success: true, message: '200 - OK: Successfully deleted user.' });
-            }
-          });
-        }
-      });
-  }
-  // else, it was not a correct mongo id format
-  else {
-    res.status(400).send({ success: false, message: '400 - Bad Request: Id is incorrect format.' });
-  }
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-///****NEED UPDATING*****
-
-    		// get a specific user
-    	exports.read = function(req, res) {
-    			User.findById(req.params.user_id, function(err, user) {
-    				if (err) res.send(err);
-
-    				// return that user
-    				res.json(user);
-    			});
-    		};
-    		// update a specific user
-    		exports.update = function(req, res) {
-    			User.findById(req.params.user_id, function(err, user) {
-
-    				if (err) res.send(err);
-
-    				// set the new user information if it exists in the request
-    				if (req.body.name) user.name 				 = req.body.name;
-    				if (req.body.username) user.username = req.body.username;
-    				if (req.body.password) user.password = req.body.password;
-    				if (req.body.admin) user.admin			 = req.body.admin;
-    				// save the user
-    				user.save(function(err) {
-    					if (err) res.send(err);
-
-    					// return a message
-    					res.json({ message: 'User updated!' });
-    				});
-    			});
-    		};

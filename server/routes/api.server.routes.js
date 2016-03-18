@@ -11,6 +11,9 @@ var api     = require('../controllers/api.server.controller.js'),
 router.route('/authenticate')
   .post(api.authenticate);
 
+router.route('/users/:user_id')
+  .get(api.read);
+
 // =============================================================================
 // ====================These routes require a token to access===================
 // =============================================================================
@@ -21,10 +24,10 @@ router.use(api.tokens);
 router.route('/me')
   .get(api.me);
 
-// getting and putting is allowed to members
+// getting and deleting is allowed to members
 router.route('/users/:user_id')
-  .get(api.read)
-  .put(api.update);
+  .put(api.update)
+  .delete(api.delete);
 
 // =============================================================================
 // ====================These routes require admin privileges access=============
@@ -37,9 +40,6 @@ router.route('/users')
   .get(api.users)
   .post(api.create);
 
-// delete a user
-router.route('/users/:user_id')
-  .delete(api.delete);
 
 // =============================================================================
 // =============================Export the routes===============================

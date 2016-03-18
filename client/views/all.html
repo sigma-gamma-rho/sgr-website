@@ -17,20 +17,19 @@
 <table class="table table-bordered table-striped" ng-show="admin.users">
 	<thead>
 		<tr>
-			<th>_id</th>
-			<th>Name</th>
-			<th>Username</th>
+			<th class="col-sm-2">Username</th>
+			<th class="col-sm-2">Password</th>
 			<th class="col-sm-2"></th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr ng-repeat="person in admin.users">
-			<td>{{ person._id }}</td>
-			<td>{{ person.name }}</td>
 			<td>{{ person.username }}</td>
-			<td class="col-sm-2">
-				<a ng-href="/users/{{ person._id }}" class="btn btn-danger">Edit</a>
-				<a href="#" ng-click="admin.deleteUser(person._id)" class="btn btn-primary">Delete</a>
+			<td>(hidden)</td>
+			<td>
+				<a ng-href="/users/view/{{ person._id }}" class="btn btn-info">V</a>
+				<a ng-href="/users/edit/{{ person._id }}" class="btn btn-danger">E</a>
+				<a href="#" ng-click="admin.delete(person._id)" class="btn btn-primary">D</a>
 			</td>
 		</tr>
 	</tbody>

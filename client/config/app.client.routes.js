@@ -1,50 +1,51 @@
 angular.module('app.routes', ['ngRoute'])
 
 .config(function($routeProvider, $locationProvider) {
-
 	$routeProvider
-
 		// default route
 		.when('/', {
 			templateUrl : 'views/home.html'
 		})
-
 		// login
 		.when('/login', {
 			templateUrl : 'views/login.html',
    			controller  : 'mainController',
     			controllerAs: 'login'
 		})
-
-
-		// show all users
+		// admin page
 		.when('/admin', {
 			templateUrl: 'views/all.html',
 			controller: 'adminController',
 			controllerAs: 'admin'
 		})
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		// create a new user
 		.when('/users/create', {
-			templateUrl: 'views/single.html',
-			controller: 'userCreateController',
-			controllerAs: 'user'
+			templateUrl: 'views/profile.html',
+			controller: 'createController',
+			controllerAs: 'profile'
 		})
+		// edit an existing user
+		.when('/users/edit/:user_id', {
+			templateUrl: 'views/profile.html',
+			controller: 'editController',
+			controllerAs: 'profile'
+		})
+		// edit an existing user
+		.when('/users/view/:user_id', {
+			templateUrl: 'views/profile.html',
+			controller: 'viewController',
+			controllerAs: 'profile'
+		})
+
+
+
+
+
+
+
+
+	/*
 
 		// edit a user
 		.when('/users/:user_id', {
@@ -58,7 +59,7 @@ angular.module('app.routes', ['ngRoute'])
             templateUrl: 'views/profile.html',
             controller: 'userProfileController',
             controllerAs: 'user'
-        })
+        })*/
 
 
 		.otherwise({
