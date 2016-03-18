@@ -1,8 +1,7 @@
 angular.module('userService', [])
-
 .factory('User', function($http) {
 
-	// create a new object
+	// factories return objects
 	var userFactory = {};
 
 	// get a single user
@@ -32,5 +31,4 @@ angular.module('userService', [])
 
 	// return our entire userFactory object
 	return userFactory;
-
 });

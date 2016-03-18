@@ -61,8 +61,7 @@
 
   			<!-- Title & Welcome Message Top Left-->
   			<div class="navbar-header">
-  				<a id="SGR-logo" href="/" class="navbar-brand"><span class="glyphicon glyphicon-education"></span>&Sigma;&Gamma;&Rho;</a>
-  				<li ng-if="main.loggedIn" class="navbar-text">Hello {{ main.user.username }}!</li>
+  				<a id="SGR-logo" href="/" class="navbar-brand">&Sigma;&Gamma;&Rho;</a>
   			</div>
 
   			<!-- Admin User Feature -->
@@ -78,16 +77,31 @@
 
   					<li ng-if="main.user.admin" class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-  									<span class="glyphicon glyphicon-wrench">&nbsp;Admin <span class="caret"></span></span></a>
+  									<span class="glyphicon glyphicon-wrench">
+											&nbsp;Admin&nbsp;<span class="caret"></span>
+										</span>
+									</a>
                   <ul class="dropdown-menu">
+										<!--<li class="dropdown-header">Admin Tools</li>
+										<li role="separator" class="divider"></li>-->
                     <li><a href="/admin"><span class="glyphicon glyphicon-user"></span>&nbsp;Users</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li class="dropdown-header">Nav header</li>
-                    <li><a href="#">Other</a></li>
                   </ul>
-                </li>
+            </li>
   					<li ng-if="!main.loggedIn"><a href="/login">Login</a></li>
-  					<li ng-if="main.loggedIn"><a href="#" ng-click="main.doLogout()">Logout</a></li>
+						<li ng-if="main.loggedIn" class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										<span class="glyphicon glyphicon-user">
+											&nbsp;{{ main.user.name}}&nbsp;<span class="caret"></span>
+										</span>
+									</a>
+									<ul class="dropdown-menu">
+										<li>
+											<a href="#" ng-click="main.doLogout()">
+												<span class="glyphicon glyphicon-log-out"></span>&nbsp;Logout
+											</a>
+										</li>
+									</ul>
+						</li>
   				</ul>
   			</div>
   		</div>

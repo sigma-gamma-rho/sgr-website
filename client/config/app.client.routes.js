@@ -29,6 +29,16 @@ angular.module('app.routes', ['ngRoute'])
 
 
 
+
+
+
+
+
+
+
+
+
+
 		// create a new user
 		.when('/users/create', {
 			templateUrl: 'views/single.html',

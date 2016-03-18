@@ -3,13 +3,20 @@
   "version": "1.0.0",
   "description": "Sorority website",
   "author": "Jeffrey McLemore <jmclemore368@gmail.com>",
+  "contributors": [{
+    "name": "Purnell Jones",
+    "email": "jonepl.ufl@gmail.com"
+    },{
+    "name": "Andy Borjas",
+    "email": "DNAndyB@gmail.com"
+    }],
   "main": "server.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/TT-ZG/zg-web-app-mean"
+    "url": "https://github.com/sigma-gamma-rho/sgr-website"
   },
   "bugs": {
-    "url": "https://github.com/TT-ZG/zg-web-app-mean/issues"
+    "url": "https://github.com/sigma-gamma-rho/sgr-website/issues"
   },
   "keywords": [
     "sigma gamma rho",

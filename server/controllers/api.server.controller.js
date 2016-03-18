@@ -70,7 +70,18 @@ exports.me =  function(req, res) {
     	}
   });
 };
-
+/********************************************************************************/
+exports.admin =  function(req, res) {
+  User.findOne({ username: req.decoded.username })
+    .exec(function(err, brother) {
+    	if (err){
+    	  res.status(500).send({ success: false, message: '500 - Internal Server Error: ' + err });
+    	}
+    	else {
+    	  res.status(200).send({ success: true, message: '200 - OK: Successfully retrieved logged in user.', info: brother });
+    	}
+  });
+};
 /********************************************************************************/
 exports.create = function(req, res) {
   var user = new User();
@@ -125,6 +136,20 @@ exports.delete = function(req, res) {
     res.status(400).send({ success: false, message: '400 - Bad Request: Id is incorrect format.' });
   }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

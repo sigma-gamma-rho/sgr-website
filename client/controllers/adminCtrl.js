@@ -1,7 +1,7 @@
 angular.module('adminCtrl', ['userService'])
-.controller('adminController', function(User) {
+.controller('adminController', function(User, Auth) {
 	var admin = this;
-
+	
 	// =========================================================================
 	// ====================This function sets up the page=======================
 	// =========================================================================
@@ -33,6 +33,19 @@ angular.module('adminCtrl', ['userService'])
 			});
 	};
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

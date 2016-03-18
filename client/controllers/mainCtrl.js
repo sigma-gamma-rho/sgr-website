@@ -1,19 +1,13 @@
 angular.module('mainCtrl', [])
-
-// ==============================================
-// INJECT DEPENDENCIES
-// ==============================================
 .controller('mainController', function($rootScope, $location, $window, Auth) {
-
-	// better to use 'controller as' rather than $scope
 	var vm = this;
 
 	// get info if a person is logged in
 	vm.loggedIn = Auth.isLoggedIn();
 
-	// ==============================================
-	// CALL A SERVICE TO CHECK IF LOGGED ON
-	// ==============================================
+	// ===========================================================================
+	// ====================This function gets the logged on user==================
+	// ===========================================================================
 	$rootScope.$on('$routeChangeStart', function() {
 
 		// refresh logged on user
@@ -35,9 +29,9 @@ angular.module('mainCtrl', [])
 		}
 	});
 
-	// ==============================================
-	// CALL A SERVICE TO LOGIN A USER
-	// ==============================================
+	// ===========================================================================
+	// ====================This function performs user logon======================
+	// ===========================================================================
 	vm.doLogin = function() {
 		// clear the error and set spinner
 		vm.processing = true;
@@ -60,9 +54,9 @@ angular.module('mainCtrl', [])
 		});
 	};
 
-	// ==============================================
-	// CALL A SERVICE TO LOGOUT A USER
-	// ==============================================
+	// ===========================================================================
+	// ====================This function logs out the user========================
+	// ===========================================================================
 	vm.doLogout = function() {
 		Auth.logout();
 		console.log('Token removed. You have successfully logged out.');
