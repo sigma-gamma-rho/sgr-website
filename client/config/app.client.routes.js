@@ -23,7 +23,12 @@ angular.module('app.routes', ['ngRoute'])
 			controller: 'adminController',
 			controllerAs: 'admin'
 		})
-
+        .when('/newUserPage',{
+            templateUrl: 'views/newUserForm.html',
+            controller: 'userSignUpController',
+            controllerAs: 'user'
+        
+        })
 
 
 

@@ -86,7 +86,27 @@ angular.module('mainCtrl', [])
 // controller applied to main page
 .controller('userSignUpController', function($scope,$mdToast,$animate){
     
+    $scope.toastPosition = {
+        bottom: false,
+        top: true,
+        left: false,
+        right: true
+    };
+    $scope.getToastPosition = function(){
+        return Object.keys($scope.toastPosition)
+            .filter(function(pos){
+            return $scope.toastPostion[pos];
+        })
+        .join('');
+    }
+    
     this.sendMail = function(){
+        
+        var data = ({
+            signUpName : this.signUpName,
+            signUpEmail : this.signUpEmail
+        });
+        
         $http.post('/signupform',data).
         success(function(data,status,headers,config){
             

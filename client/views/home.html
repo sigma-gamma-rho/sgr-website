@@ -2,7 +2,11 @@
 <section id="fw-header">
 	<div class="jumbotron text-center home-text" id="home-bg">
 		<h1>Welcome to Sigma Gamma Rho!</h1>
-
+        <div ng-if="!main.loggedIn">
+            <p class="home-text">New User? Click here.
+            </p>
+            <a href ="/newUserPage" class="btn btn-primary">New User</a>
+        </div>
 		<div ng-if="!main.loggedIn">
 			<p class="home-text">Login to see manage your users.</p>
 			<a href="/login" class="btn btn-primary">Login</a>

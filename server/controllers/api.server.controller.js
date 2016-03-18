@@ -126,6 +126,18 @@ exports.delete = function(req, res) {
   }
 };
 
+exports.sendMail = function(req,res){
+    
+    var data = req.body;
+    
+    transporter.sendMail({
+        from: data.signUpEmail,
+        to: 'aborjas@ufl.edu',
+        subject: 'Message from' + data.signUpName,
+        text: "Approval message."
+    });
+    
+};
 
 
 
