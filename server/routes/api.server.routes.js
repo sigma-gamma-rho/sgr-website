@@ -17,26 +17,29 @@ router.route('/authenticate')
 // To use any of the following routes, a token is required
 router.use(api.tokens);
 
-// Getting the current user
+// Getting the current user is allowed to members
 router.route('/me')
   .get(api.me);
 
-// Posting to create a user
-router.route('/users')
-  .post(api.create)
-  .get(api.users);
-
-// Retrieving a single user
+// getting and putting is allowed to members
 router.route('/users/:user_id')
   .get(api.read)
-  .put(api.update)
-  .delete(api.delete);
+  .put(api.update);
 
 // =============================================================================
 // ====================These routes require admin privileges access=============
 // =============================================================================
+// To use any of the following routes, you must be an admin
+router.use(api.admin);
 
+// get all users or create a user
+router.route('/users')
+  .get(api.users)
+  .post(api.create);
 
+// delete a user
+router.route('/users/:user_id')
+  .delete(api.delete);
 
 // =============================================================================
 // =============================Export the routes===============================

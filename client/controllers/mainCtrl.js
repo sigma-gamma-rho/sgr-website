@@ -64,13 +64,4 @@ angular.module('mainCtrl', [])
 		$location.path('/login');
 		vm.loggedIn = false;
 	};
-
-	/*******************************************************************************/
-	// ==============================================
-	// Temporary. Incase anyone decies to nuke the users
-	// ==============================================
-	vm.createSample = function() {
-		Auth.createSampleUser();
-	};
-
 });

@@ -1,7 +1,7 @@
 angular.module('adminCtrl', ['userService'])
 .controller('adminController', function(User, Auth) {
 	var admin = this;
-	
+
 	// =========================================================================
 	// ====================This function sets up the page=======================
 	// =========================================================================
@@ -25,6 +25,7 @@ angular.module('adminCtrl', ['userService'])
 		admin.delete(id);
 		admin.init();
 	};
+
 
 	admin.delete = function(id) {
 		User.delete(id)

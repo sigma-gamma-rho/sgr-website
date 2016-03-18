@@ -70,16 +70,23 @@ exports.me =  function(req, res) {
     	}
   });
 };
+
 /********************************************************************************/
-exports.admin =  function(req, res) {
+exports.admin = function(req, res, next){
   User.findOne({ username: req.decoded.username })
-    .exec(function(err, brother) {
-    	if (err){
-    	  res.status(500).send({ success: false, message: '500 - Internal Server Error: ' + err });
-    	}
-    	else {
-    	  res.status(200).send({ success: true, message: '200 - OK: Successfully retrieved logged in user.', info: brother });
-    	}
+    .exec(function(err, user) {
+      if (err){
+        res.status(500).send({ success: false, message: '500 - Internal Server Error: ' + err });
+      }
+      else {
+        if (user.admin){
+          console.log('Success, you are an admin!');
+          next();
+        }
+        else{
+          res.status(403).send({ success: false, message: '403 - Forbidden: Not an admin.' });
+        }
+      }
   });
 };
 /********************************************************************************/
@@ -103,7 +110,6 @@ exports.create = function(req, res) {
     }
   });
 };
-
 /********************************************************************************/
 exports.users = function(req, res) {
   User.find()
@@ -117,34 +123,35 @@ exports.users = function(req, res) {
     }
   });
 };
-
 /********************************************************************************/
 exports.delete = function(req, res) {
   // delete a specific user if it is a valid id ...
   if (req.params.user_id.match(/^[0-9a-fA-F]{24}$/)) {
-    User.remove({_id: req.params.user_id}, function(err, user) {
-      if (err) {
-    	   res.status(500).send({ success: false, message: '500 - Internal Server Error: ' + err });
-    	}
-    	else {
-    	   res.status(200).send({ success: true, message: '200 - OK: Successfully deleted user.' });
-    	}
-    });
+
+    User.findOne({_id: req.params.user_id})
+      .exec(function(err, user) {
+        if (err){
+          res.status(500).send({ success: false, message: '500 - Internal Server Error: ' + err });
+        }
+        if (user.admin){
+          res.status(400).send({ success: false, message: '400 - Bad Request: Cannot delete admin.' });
+        } else{
+          User.remove({_id: req.params.user_id}, function(err, user) {
+            if (err) {
+               res.status(500).send({ success: false, message: '500 - Internal Server Error: ' + err });
+            }
+            else {
+               res.status(200).send({ success: true, message: '200 - OK: Successfully deleted user.' });
+            }
+          });
+        }
+      });
   }
   // else, it was not a correct mongo id format
   else {
     res.status(400).send({ success: false, message: '400 - Bad Request: Id is incorrect format.' });
   }
 };
-
-
-
-
-
-
-
-
-
 
 
 
