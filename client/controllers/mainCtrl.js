@@ -84,7 +84,27 @@ angular.module('mainCtrl', [])
 // INJECT DEPENDENCIES
 // ==============================================
 // controller applied to main page
-.controller('userSignUpController', function($scope,$mdToast,$animate){
+.controller('userSignUpController', function($rootscope,$location,$window,Auth,$scope,$mdToast,$animate){
+    
+    
+    var vm = this;
+
+	// get info if a person is logged in
+	vm.loggedIn = Auth.isLoggedIn();
+    
+    if(vm.loggedIn && $window.localStorage.getItem('token')){
+			Auth.getUser()
+			.success(function(res){
+				if (res.success){
+					vm.user = res.info;
+					console.log(JSON.stringify(res.info));
+					console.log(res.message);
+				}
+			})
+			.error(function(res){
+				console.log (res.message);
+			});
+		}
     
     $scope.toastPosition = {
         bottom: false,
@@ -107,7 +127,7 @@ angular.module('mainCtrl', [])
             signUpEmail : this.signUpEmail
         });
         
-        $http.post('/signupform',data).
+        $http.post('/signUpForm',data).
         success(function(data,status,headers,config){
             
         }).

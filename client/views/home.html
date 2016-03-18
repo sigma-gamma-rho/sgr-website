@@ -5,7 +5,7 @@
         <div ng-if="!main.loggedIn">
             <p class="home-text">New User? Click here.
             </p>
-            <a href ="/newUserPage" class="btn btn-primary">New User</a>
+            <a href ="/newUserForm" class="btn btn-primary">New User</a>
         </div>
 		<div ng-if="!main.loggedIn">
 			<p class="home-text">Login to see manage your users.</p>
@@ -14,7 +14,7 @@
 
 		<div ng-if="main.loggedIn">
 			<p class="home-text">Manage your users.</p>
-			<a href="/users" class="btn btn-primary">View Users</a>
+			<a href="/admin" class="btn btn-primary">View Users</a>
 		</div>
 	</div>
 </section>
