@@ -47,13 +47,13 @@ exports.read = function(req, res) {
   // if it is a valid id ...
   if (req.params.user_id.match(/^[0-9a-fA-F]{24}$/)) {
 
-    // find that brother with the given id
+    // find that user with the given id
     User.findById(req.params.user_id, function(err, user) {
       if (err){
         res.status(500).send({ success: false, message: '500 - Internal Server Error: ' + err });
       }
       else {
-        res.status(200).send({ success: true,  message: '200 - OK: Successfully retrieved brother info.', info: user });
+        res.status(200).send({ success: true,  message: '200 - OK: Successfully retrieved user info.', info: user });
       }
     });
   }
@@ -86,12 +86,12 @@ exports.tokens = function(req, res, next){
 /********************************************************************************/
 exports.me =  function(req, res) {
   User.findOne({ username: req.decoded.username })
-    .exec(function(err, brother) {
+    .exec(function(err, user) {
     	if (err){
     	  res.status(500).send({ success: false, message: '500 - Internal Server Error: ' + err });
     	}
     	else {
-    	  res.status(200).send({ success: true, message: '200 - OK: Successfully retrieved logged in user.', info: brother });
+    	  res.status(200).send({ success: true, message: '200 - OK: Successfully retrieved logged in user.', info: user });
     	}
   });
 };
@@ -102,7 +102,7 @@ exports.update = function(req, res) {
   // if it is a valid id ...
   if (req.params.user_id.match(/^[0-9a-fA-F]{24}$/)) {
 
-    // find the brother with the given id
+    // find the user with the given id
     User.findById(req.params.user_id, function(err, user) {
 
       // if there is an error ...
@@ -110,14 +110,14 @@ exports.update = function(req, res) {
         res.status(500).send({ success: false, message: '500 - Internal Server Error: ' + err });
       }
 
-      // set the new brother information if it exists in the request
+      // set the new user information if it exists in the request
       if (req.body.username) user.username  = req.body.username;
       if (req.body.password) user.password  = req.body.password;
       if (req.body.name) user.name 				  = req.body.name;
       if (req.body.admin) user.admin        = req.body.admin;
 
 
-      // save the newly updated brother
+      // save the newly updated user
       user.save(function(err) {
         if (err){
           if (err.code === 11000){
@@ -202,7 +202,7 @@ exports.create = function(req, res) {
     	}
     }
     else {
-      res.status(200).send({ success: true, message: '200 - OK: Brother created!', userId: user._id });
+      res.status(200).send({ success: true, message: '200 - OK: user created!', userId: user._id });
     }
   });
 };
@@ -215,7 +215,7 @@ exports.users = function(req, res) {
     	res.status(500).send({ success: false, message: '500 - Internal Server Error: ' + err });
     }
     else {
-      res.status(200).send({ success: true, message: '200 - OK: Successfully retrieved brothers.', info: users });
+      res.status(200).send({ success: true, message: '200 - OK: Successfully retrieved users.', info: users });
     }
   });
 };

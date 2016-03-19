@@ -1,67 +1,54 @@
 angular.module('mainCtrl', [])
 .controller('mainController', function($rootScope, $location, $window, Auth) {
-	var vm = this;
+	var main = this;
+	main.loggedIn = Auth.isLoggedIn();
 
-	// get info if a person is logged in
-	vm.loggedIn = Auth.isLoggedIn();
+	// ***************************************************************************
+	// redirect if promise fails
+	$rootScope.$on('$routeChangeError', function(event, current, previous, rejection){
+		console.log(rejection);
+		$location.path('/error');
+	});
 
-	// ===========================================================================
-	// ====================This function gets the logged on user==================
-	// ===========================================================================
+	// ***************************************************************************
 	$rootScope.$on('$routeChangeStart', function() {
 
 		// refresh logged on user
-		vm.loggedIn = Auth.isLoggedIn();
+		main.loggedIn = Auth.isLoggedIn();
 
 		// update the info if logged in
-		if(vm.loggedIn && $window.localStorage.getItem('token')){
-			Auth.getUser()
-			.success(function(res){
-				if (res.success){
-					vm.user = res.info;
-					console.log(JSON.stringify(res.info));
-					console.log(res.message);
+		if(main.loggedIn && $window.localStorage.getItem('token')){
+			Auth.getUser().then(function(res){
+				if (res.data.success){
+					main.user = res.data.info;
+					console.log(JSON.stringify(res.data.info));
 				}
-			})
-			.error(function(res){
-				console.log (res.message);
+				console.log(res.data.message);
 			});
 		}
 	});
 
-	// ===========================================================================
-	// ====================This function performs user logon======================
-	// ===========================================================================
-	vm.doLogin = function() {
-		// clear the error and set spinner
-		vm.processing = true;
-		vm.error = '';
+	// ***************************************************************************
+	main.doLogin = function() {
+		main.error = '';
 		// log the user in
-		Auth.login(vm.loginData.username, vm.loginData.password)
-		.success(function(res){
-			if (res.success){
-				vm.processing = false;
-				$window.localStorage.setItem('token', res.token);
+		Auth.login(main.loginData.username, main.loginData.password).then(function(res){
+			if (res.data.success){
+				$window.localStorage.setItem('token', res.data.token);
 				$location.path('/');
-				console.log(res.message);
+			} else{
+				main.error = res.data.message;
 			}
-		})
-		.error(function(res){
-			if (!res.success){
-				vm.error = res.message;
-				console.log(res.message);
-			}
+			console.log(res.data.message);
 		});
 	};
 
-	// ===========================================================================
-	// ====================This function logs out the user========================
-	// ===========================================================================
-	vm.doLogout = function() {
+	// ***************************************************************************
+	main.doLogout = function() {
 		Auth.logout();
 		console.log('Token removed. You have successfully logged out.');
-		vm.user = '';
+		main.user = '';
 		$location.path('/login');
-		vm.loggedIn = false;
+		main.loggedIn = false;
 	};
 });

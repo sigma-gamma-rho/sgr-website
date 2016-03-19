@@ -1,5 +1,13 @@
 angular.module('userApp', [
-	'authService', 'mainCtrl', 'ngAnimate', 'app.routes', 'authService', 'userService', 'adminCtrl', 'profileCtrl'
+	'authService',
+	'mainCtrl',
+	'ngAnimate',
+	'app.routes',
+	'authService',
+	'userService',
+	'adminService',
+	'adminCtrl',
+	'profileCtrl'
 ])
 
 /*

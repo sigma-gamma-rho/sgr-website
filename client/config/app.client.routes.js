@@ -2,6 +2,8 @@ angular.module('app.routes', ['ngRoute'])
 
 .config(function($routeProvider, $locationProvider) {
 	$routeProvider
+
+	// *************************************************************************
 		// default route
 		.when('/', {
 			templateUrl : 'views/home.html'
@@ -12,41 +14,61 @@ angular.module('app.routes', ['ngRoute'])
    			controller  : 'mainController',
     			controllerAs: 'login'
 		})
+		.when('/error', {
+			templateUrl : 'views/error.html'
+		})
+
+
+
+		// *************************************************************************
 		// admin page
-		.when('/admin', {
+		.when('/admin/users', {
 			templateUrl: 'views/all.html',
 			controller: 'adminController',
-			controllerAs: 'admin'
+			controllerAs: 'admin',
+			resolve: {
+				message: function(adminService){
+					return adminService.isAdmin();
+				}
+			}
 		})
-
 		// create a new user
-		.when('/users/create', {
+		.when('/admin/users/create', {
 			templateUrl: 'views/profile.html',
 			controller: 'createController',
-			controllerAs: 'profile'
+			controllerAs: 'profile',
+			resolve: {
+				message: function(adminService){
+					return adminService.isAdmin();
+				}
+			}
 		})
 		// edit an existing user
-		.when('/users/edit/:user_id', {
+		.when('/admin/users/edit/:user_id', {
 			templateUrl: 'views/profile.html',
 			controller: 'editController',
-			controllerAs: 'profile'
+			controllerAs: 'profile',
+			resolve: {
+				message: function(adminService){
+					return adminService.isAdmin();
+				}
+			}
 		})
 		// edit an existing user
-		.when('/users/view/:user_id', {
+		.when('/admin/users/view/:user_id', {
 			templateUrl: 'views/profile.html',
 			controller: 'viewController',
-			controllerAs: 'profile'
+			controllerAs: 'profile',
+			resolve: {
+				message: function(adminService){
+					return adminService.isAdmin();
+				}
+			}
 		})
-
-
-
-
-
 
 
 
 	/*
-
 		// edit a user
 		.when('/users/:user_id', {
 			templateUrl: 'views/single.html',
