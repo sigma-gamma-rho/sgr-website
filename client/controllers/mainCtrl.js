@@ -84,10 +84,10 @@ angular.module('mainCtrl', [])
 // INJECT DEPENDENCIES
 // ==============================================
 // controller applied to main page
-.controller('userSignUpController', function($rootscope,$location,$window,Auth,$scope,$mdToast,$animate){
+.controller('userSignUpController', function($http,$location,$window,Auth,$scope,$animate){
     
     
-    var vm = this;
+    /*var vm = this;
 
 	// get info if a person is logged in
 	vm.loggedIn = Auth.isLoggedIn();
@@ -118,9 +118,9 @@ angular.module('mainCtrl', [])
             return $scope.toastPostion[pos];
         })
         .join('');
-    }
+    };
     
-    this.sendMail = function(){
+    vm.sendMail = function(){
         
         var data = ({
             signUpName : this.signUpName,
@@ -134,6 +134,6 @@ angular.module('mainCtrl', [])
         error(function(data,status,headers,config){
             
         });
-    }
+    };*/
     
 });

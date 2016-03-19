@@ -25,7 +25,7 @@ angular.module('app.routes', ['ngRoute'])
 		})
         .when('/newUserForm',{
             templateUrl: 'views/newUserForm.html',
-            controller: 'mainController',
+            controller: 'userSignUpController',
             controllerAs: 'login'
         
         })
