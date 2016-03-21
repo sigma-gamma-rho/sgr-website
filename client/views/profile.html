@@ -6,23 +6,27 @@
 
 
 
-<div ng-if="profile.type =='view'">
+<div ng-if="profile.type =='view'" class="table-responsive">
 	<table class="table table-bordered table-striped">
-		<thead>
-			<tr>
-				<th class="col-sm-2">_id</th>
-				<th class="col-sm-2">Name</th>
-				<th class="col-sm-2">Username</th>
-				<th class="col-sm-2">Password</th>
-				<th class="col-sm-2">Admin</th>
-			</tr>
-		</thead>
 		<tbody>
 			<tr>
+				<th>_id</th>
 				<td>{{profile.userData._id}}</td>
+			</tr>
+			<tr>
+				<th>Name</th>
 				<td>{{profile.userData.name}}</td>
+			</tr>
+			<tr>
+				<th>Username</th>
 				<td>{{profile.userData.username}}</td>
+			</tr>
+			<tr>
+				<th>Password</th>
 				<td>(hidden)</td>
+			</tr>
+			<tr>
+				<th>Admin</th>
 				<td>{{profile.userData.admin}}</td>
 			</tr>
 		</tbody>

@@ -1,4 +1,4 @@
-angular.module('adminService', ['authService'])
+angular.module('adminService', ['authFactory'])
 .service('adminService', function ($q, $timeout, Auth) {
 
   return {

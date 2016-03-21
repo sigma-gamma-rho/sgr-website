@@ -35,57 +35,47 @@ angular.module('app.routes', ['ngRoute'])
 		// create a new user
 		.when('/admin/users/create', {
 			templateUrl: 'views/profile.html',
-			controller: 'createController',
+			controller: 'profileController',
 			controllerAs: 'profile',
 			resolve: {
 				message: function(adminService){
 					return adminService.isAdmin();
+				},
+				type: function(){
+						return "create";
 				}
 			}
 		})
 		// edit an existing user
 		.when('/admin/users/edit/:user_id', {
 			templateUrl: 'views/profile.html',
-			controller: 'editController',
+			controller: 'profileController',
 			controllerAs: 'profile',
 			resolve: {
 				message: function(adminService){
 					return adminService.isAdmin();
-				}
+				},
+				type: function(){
+            return "edit";
+        }
 			}
 		})
 		// edit an existing user
 		.when('/admin/users/view/:user_id', {
 			templateUrl: 'views/profile.html',
-			controller: 'viewController',
+			controller: 'profileController',
 			controllerAs: 'profile',
 			resolve: {
 				message: function(adminService){
 					return adminService.isAdmin();
+				},
+				type: function(){
+						return "view";
 				}
 			}
 		})
-
-
-
-	/*
-		// edit a user
-		.when('/users/:user_id', {
-			templateUrl: 'views/single.html',
-			controller: 'userEditController',
-			controllerAs: 'user'
-		})
-        //page to see user profile
-        //should work I should probably look at that
-        .when('/users/profile/:user_id', {
-            templateUrl: 'views/profile.html',
-            controller: 'userProfileController',
-            controllerAs: 'user'
-        })*/
-
-
 		.otherwise({
-			redirectTo: '/login'
+			redirectTo: '/'
 		});
 
 

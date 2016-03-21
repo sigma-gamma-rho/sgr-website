@@ -1,5 +1,5 @@
-angular.module('userService', [])
-.factory('User', function($http) {
+angular.module('crudFactory', [])
+.factory('Crud', function($http) {
 
 	// factories return objects
 	var userFactory = {};

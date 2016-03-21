@@ -1,74 +1,69 @@
-angular.module('profileCtrl', ['userService'])
+angular.module('profileCtrl', ['crudFactory'])
 // controller applied to user creation page
-.controller('createController', function(User) {
+.controller('profileController', function($routeParams, Crud, $location, type) {
 	var profile = this;
-	profile.type = 'create';
+
+	// ***************************************************************************
+	// set up the page
+	profile.init = function(){
+		console.log('Page type is: ' + type);
+		if (type === "create"){
+			profile.type = 'create';
+		}
+		else if (type === "edit"){
+			profile.type = 'edit';
+			profile.getUser();
+		}
+		else if (type === "view"){
+			profile.type = 'view';
+			profile.getUser();
+		}
+	};
+	// ***************************************************************************
+	profile.getUser = function(){
+		Crud.get($routeParams.user_id).then(function(res){
+				if(res.data.success){
+						profile.userData = res.data.info;
+				}
+				console.log(res.data.message);
+			});
+	};
+
+	// ***************************************************************************
+	// save a users info
+	profile.saveBrother = function() {
+		if (type === "create"){
+			profile.postUser();
+		}
+		else if (type === "edit"){
+			brother.putUser();
+		}
+	};
 
   // ***************************************************************************
-	profile.saveUser = function() {
+	profile.postUser = function() {
 		profile.message = '';
-
 		// use the create function in the userService
-		User.create(profile.userData).then(function(res){
+		Crud.create(profile.userData).then(function(res){
         if (res.data.success){
           profile.userData = {};
         }
         profile.message = res.data.message;
       });
 	};
-})
-
-
-
-
-
-// ********************This ctrl lets anyone view a user************************
-.controller('viewController', function($routeParams, User) {
-  var profile = this;
-	profile.type = 'view';
-  // ***************************************************************************
-	User.get($routeParams.user_id).then(function(res){
-      console.log(res);
-      if(res.data.success){
-        	profile.userData = res.data.info;
-      }
-      console.log(res.data.message);
-    });
-})
-
-
-
-
-
-
-
-
-
-
-
-
-// controller applied to user edit page
-.controller('editController', function($routeParams, User) {
-	var profile = this;
-	profile.type = 'edit';
-  // ***************************************************************************
-	User.get($routeParams.user_id).then(function(res){
-      if(res.data.success){
-        	profile.userData = res.data.info;
-      }
-      console.log(res.data.message);
-    });
-
-  // ***************************************************************************
-	profile.saveUser = function() {
+	// ***************************************************************************
+	profile.putUser = function() {
 		profile.message = '';
 
 		// call the profileService function to update
-		User.update($routeParams.user_id, profile.userData).then(function(res){
-        if (res.data.success){
-          profile.userData = {};
-        }
-        profile.message = res.data.message;
-      });
+		Crud.update($routeParams.user_id, profile.userData).then(function(res){
+				if (res.data.success){
+					profile.userData = {};
+				}
+				profile.message = res.data.message;
+			});
 	};
+
+	// ***************************************************************************
+	profile.init();
 });

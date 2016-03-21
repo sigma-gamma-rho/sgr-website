@@ -1,11 +1,11 @@
 angular.module('userApp', [
-	'authService',
-	'mainCtrl',
 	'ngAnimate',
 	'app.routes',
-	'authService',
-	'userService',
+	'authFactory',
+	'interceptFactory',
+	'crudFactory',
 	'adminService',
+	'mainCtrl',
 	'adminCtrl',
 	'profileCtrl'
 ])
