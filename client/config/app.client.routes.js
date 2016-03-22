@@ -1,58 +1,81 @@
 angular.module('app.routes', ['ngRoute'])
 
 .config(function($routeProvider, $locationProvider) {
-
 	$routeProvider
 
+	// *************************************************************************
 		// default route
 		.when('/', {
 			templateUrl : 'views/home.html'
 		})
-
 		// login
 		.when('/login', {
 			templateUrl : 'views/login.html',
    			controller  : 'mainController',
     			controllerAs: 'login'
 		})
+		.when('/error', {
+			templateUrl : 'views/error.html'
+		})
 
 
-		// show all users
-		.when('/admin', {
+
+		// *************************************************************************
+		// admin page
+		.when('/admin/users', {
 			templateUrl: 'views/all.html',
 			controller: 'adminController',
-			controllerAs: 'admin'
+			controllerAs: 'admin',
+			resolve: {
+				message: function(adminService){
+					return adminService.isAdmin();
+				}
+			}
 		})
-
-
-
-
-
-
 		// create a new user
-		.when('/users/create', {
-			templateUrl: 'views/single.html',
-			controller: 'userCreateController',
-			controllerAs: 'user'
+		.when('/admin/users/create', {
+			templateUrl: 'views/profile.html',
+			controller: 'profileController',
+			controllerAs: 'profile',
+			resolve: {
+				message: function(adminService){
+					return adminService.isAdmin();
+				},
+				type: function(){
+						return "create";
+				}
+			}
 		})
-
-		// edit a user
-		.when('/users/:user_id', {
-			templateUrl: 'views/single.html',
-			controller: 'userEditController',
-			controllerAs: 'user'
+		// edit an existing user
+		.when('/admin/users/edit/:user_id', {
+			templateUrl: 'views/profile.html',
+			controller: 'profileController',
+			controllerAs: 'profile',
+			resolve: {
+				message: function(adminService){
+					return adminService.isAdmin();
+				},
+				type: function(){
+            return "edit";
+        }
+			}
 		})
-        //page to see user profile
-        //should work I should probably look at that
-        .when('/users/profile/:user_id', {
-            templateUrl: 'views/profile.html',
-            controller: 'userProfileController',
-            controllerAs: 'user'
-        })
-
-
+		// edit an existing user
+		.when('/admin/users/view/:user_id', {
+			templateUrl: 'views/profile.html',
+			controller: 'profileController',
+			controllerAs: 'profile',
+			resolve: {
+				message: function(adminService){
+					return adminService.isAdmin();
+				},
+				type: function(){
+						return "view";
+				}
+			}
+		})
 		.otherwise({
-			redirectTo: '/login'
+			redirectTo: '/'
 		});
 
 

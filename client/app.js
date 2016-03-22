@@ -1,5 +1,16 @@
 angular.module('userApp', [
-	'authService', 'mainCtrl', 'ngAnimate', 'app.routes', 'authService', 'userService', 'adminCtrl'
+	'ngAnimate',
+	'app.routes',
+	'authFactory',
+	'interceptFactory',
+	'crudFactory',
+	'adminService',
+	'formService',
+	'mainCtrl',
+	'adminCtrl',
+	'profileCtrl',
+	'profileService',
+	'fileDirective'
 ])
 
 /*

@@ -1,153 +1,66 @@
-angular.module('adminCtrl', ['userService'])
-.controller('adminController', function(User) {
+angular.module('adminCtrl', ['crudFactory'])
+
+.controller('adminController', function(Crud, Auth, message) {
+	console.log('message' + JSON.stringify(message) );
 	var admin = this;
 
-	// =========================================================================
-	// ====================This function sets up the page=======================
-	// =========================================================================
+	// *************************************************************************
+	// start the spinner on the page
+  admin.startSpinner = function(){
+	  admin.processing = true;
+	};
+	// end the spinner on the page
+	admin.endSpinner = function(){
+	  admin.processing = false;
+	};
+
+	// *************************************************************************
 	// initialize users
 	admin.init = function() {
-		User.all()
-			.then(function(res){
-				console.log(res);
+		admin.startSpinner();
+		Crud.all().then(function(res){
 				if (res.data.success)
 					admin.users = res.data.info;
 				console.log(res.data.message);
+				admin.endSpinner();
 			});
 	};
 	admin.init();
 
-	// ===========================================================================
-	// ====================This allows the admin to delete users==================
-	// ===========================================================================
+	// *************************************************************************
 	// delete a brothers information totally
-	admin.deleteUser = function(id) {
-		admin.delete(id);
+	admin.delete = function(id, pictureName) {
+		admin.startSpinner();
+
+		Crud.delete(id).then(function(res){
+				console.log(res.data.message);
+
+				Crud.deletePicture(pictureName).then(function(res){
+					console.log(res.data.message);
+					admin.endSpinner();
+				});
+		});
+		// refresh the data
 		admin.init();
 	};
 
-	admin.delete = function(id) {
-		User.delete(id)
-			.then(function(res){
-				console.log(res.data.message);
-			});
-	};
-})
 
+	// *************************************************************************
+	// delete a brothers current picture then reset it to the default
+	admin.resetPicture = function(brotherId, pictureName){
+		admin.startSpinner();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*****NEEDS CHANGINGING******/
-// ==============================================
-// INJECT DEPENDENCIES
-// ==============================================
-// controller applied to user creation page
-.controller('userCreateController', function(User) {
-
-	var admin = this;
-
-	// variable to hide/show elements of the view
-	// differentiates between create or edit pages
-	admin.type = 'create';
-
-	// ==============================================
-	// CALL A SERVICE TO SAVE A USER
-	// ==============================================
-	admin.saveUser = function() {
-		admin.processing = true;
-		admin.message = '';
-
-		// use the create function in the userService
-		User.create(admin.userData)
-			.success(function(data) {
-				admin.processing = false;
-				admin.userData = {};
-				admin.message = data.message;
-			});
-
-	};
-
-})
-// ==============================================
-// INJECT DEPENDENCIES
-// ==============================================
-.controller('userProfileController', function($routeParams, User){
-    var admin = this;
-
-
-    // ==============================================
-	// GET THE USER TO EDIT BASED ON ID
-	// ==============================================
-	User.get($routeParams.user_id)
-		.success(function(data) {
-			admin.userData = data;
+		// delete a brothers picture by pictureName
+		Crud.deletePicture(pictureName).then(function(res){
+			console.log(res.data.message);
 		});
 
-})
-
-// ==============================================
-// INJECT DEPENDENCIES
-// ==============================================
-// controller applied to user edit page
-.controller('userEditController', function($routeParams, User) {
-
-	// better to use 'controller as' rather than $scope
-	var admin = this;
-
-	// variable to determine if we should hide/show elements of the view
-	admin.type = 'edit';
-
-	// ==============================================
-	// GET THE USER TO EDIT BASED ON ID
-	// ==============================================
-	User.get($routeParams.user_id)
-		.success(function(data) {
-			admin.userData = data;
+		// reset the picture to default, refresh the table
+		admin.userData = {picture: 'default.jpg'};
+		Crud.update(brotherId, admin.userData).then(function(res){
+			console.log(res.data.message);
+			admin.endSpinner();
+			admin.init();
 		});
-
-	// ==============================================
-	// SAVE THE USERS NEW INFORMATION
-	// ==============================================
-	admin.saveUser = function() {
-		admin.processing = true;
-		admin.message = '';
-
-		// call the userService function to update
-		User.update($routeParams.user_id, admin.userData)
-			.success(function(data) {
-				admin.processing = false;
-
-				// clear the form
-				admin.userData = {};
-
-				// bind the message from our API to admin.message
-				admin.message = data.message;
-			});
 	};
-
 });
