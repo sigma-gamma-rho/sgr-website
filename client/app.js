@@ -5,9 +5,12 @@ angular.module('userApp', [
 	'interceptFactory',
 	'crudFactory',
 	'adminService',
+	'formService',
 	'mainCtrl',
 	'adminCtrl',
-	'profileCtrl'
+	'profileCtrl',
+	'profileService',
+	'fileDirective'
 ])
 
 /*

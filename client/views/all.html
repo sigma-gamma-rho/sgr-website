@@ -8,28 +8,28 @@
 	</h1>
 </div>
 
-<div class="jumbotron text-center" ng-show="admin.processing">
-	<span class="glyphicon glyphicon-repeat spinner"></span>
-	<p>Loading Users...</p>
-</div>
+<div ng-show="admin.processing" class="loading">Loading&#8230;</div>
 
 <div class="table-responsive">
 	<table class="table table-bordered table-striped table-condensed" ng-show="admin.users">
 		<thead>
 			<tr>
 				<th>Username</th>
-				<th >Password</th>
-				<th></th>
+				<th>Password</th>
+				<th>Picture</th>
+				<th>Controls</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr ng-repeat="person in admin.users">
 				<td>{{ person.username }}</td>
 				<td>(hidden)</td>
+				<td>{{ person.picture }}</td>
 				<td>
-					<a ng-href="/admin/users/view/{{ person._id }}" class="btn btn-info">View</a>
-					<a ng-href="/admin/users/edit/{{ person._id }}" class="btn btn-danger">Edit</a>
-					<a href="#" ng-click="admin.delete(person._id)" class="btn btn-primary">Delete</a>
+					<a ng-href="/admin/users/view/{{ person._id }}" class="btn btn-success">View</a>
+					<a ng-href="/admin/users/edit/{{ person._id }}" class="btn btn-primary">Edit</a>
+					<a href="#" ng-click="admin.delete(person._id, person.picture)" class="btn btn-danger">Delete</a>
+					<a href="#" ng-click="admin.resetPicture(person._id, person.picture)" class="btn btn-info">Reset Pic</a>
 				</td>
 			</tr>
 		</tbody>

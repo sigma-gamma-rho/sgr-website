@@ -1,8 +1,9 @@
 // get dependencies
 var api     = require('../controllers/api.server.controller.js'),
     express = require('express'),
-    router  = express.Router();
-
+    router  = express.Router(),
+    multer  = require('multer'),
+    upload  = multer({ dest: 'uploads/'});
 
 // =============================================================================
 // ====================These routes are allowed to the public===================
@@ -11,8 +12,13 @@ var api     = require('../controllers/api.server.controller.js'),
 router.route('/authenticate')
   .post(api.authenticate);
 
+// getting a users public information is allowed
 router.route('/users/:user_id')
   .get(api.read);
+
+// Retrieving a users picture is allowed
+router.route('/pictures/:id')
+  .get(api.readPicture);
 
 // =============================================================================
 // ====================These routes require a token to access===================
@@ -28,6 +34,12 @@ router.route('/me')
 router.route('/users/:user_id')
   .put(api.update)
   .delete(api.delete);
+
+// Editing, deleting, and posting pictures
+router.route('/pictures/:id')
+  .delete(api.deletePicture)
+  .post(upload.single('file'), api.postPicture)
+  .put(upload.single('file'), api.updatePicture);
 
 // =============================================================================
 // ====================These routes require admin privileges access=============

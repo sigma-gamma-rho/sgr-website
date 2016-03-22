@@ -1,14 +1,18 @@
+<div ng-show="profile.processing" class="loading">Loading&#8230;</div>
+
 <div class="page-header">
 	<h1 ng-if="profile.type == 'create'">Create User</h1>
 	<h1 ng-if="profile.type == 'edit'">Edit User</h1>
 	<h1 ng-if="profile.type == 'view'">View User</h1>
 </div>
 
-
-
 <div ng-if="profile.type =='view'" class="table-responsive">
 	<table class="table table-bordered table-striped">
 		<tbody>
+			<tr>
+				<th>Image</th>
+				<td><img ng-src="{{image_source}}" height=200px width=200px></td>
+			</tr>
 			<tr>
 				<th>_id</th>
 				<td>{{profile.userData._id}}</td>
@@ -34,8 +38,25 @@
 </div>
 
 
-
 <form ng-if="profile.type == 'edit' || profile.type == 'create'" class="form-horizontal" ng-submit="profile.saveUser()">
+
+
+	<!--
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-6">
+			<div class="alert alert-info" ng-show="profile.dataMessage">{{ profile.dataMessage }}</div>
+			<div class="alert alert-info" ng-show="profile.pictureMessage">{{ profile.pictureMessage }}</div>
+		</div>
+	</div>-->
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Picture</label>
+		<div class="col-sm-6">
+			<img ng-src="{{image_source}}" height=200px width=200px>
+			<input type="file" class="ng-show" onchange="angular.element(this).scope().setFile(this)" accept="image/*" file-directive="myFile">
+		</div>
+	</div>
+
 
 	<div class="form-group">
 		<label class="col-sm-2 control-label">Name</label>

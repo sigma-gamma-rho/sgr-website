@@ -3,13 +3,16 @@
   "version": "1.0.0",
   "description": "Sorority website",
   "author": "Jeffrey McLemore <jmclemore368@gmail.com>",
-  "contributors": [{
-    "name": "Purnell Jones",
-    "email": "jonepl.ufl@gmail.com"
-    },{
-    "name": "Andy Borjas",
-    "email": "DNAndyB@gmail.com"
-    }],
+  "contributors": [
+    {
+      "name": "Purnell Jones",
+      "email": "jonepl.ufl@gmail.com"
+    },
+    {
+      "name": "Andy Borjas",
+      "email": "DNAndyB@gmail.com"
+    }
+  ],
   "main": "server.js",
   "repository": {
     "type": "git",
@@ -26,9 +29,11 @@
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.14.2",
     "express": "^4.13.4",
+    "gridfs-stream": "^1.1.1",
     "jsonwebtoken": "^5.5.4",
     "mongoose": "^4.4.2",
     "morgan": "^1.6.1",
+    "multer": "^1.1.0",
     "nodemon": "^1.9.1"
   },
   "devDependencies": {
