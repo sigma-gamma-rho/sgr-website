@@ -1,0 +1,50 @@
+<h1>Sigma Gamma Rho Regional Chat</h1>
+<div>
+	<div id="chat-window">
+		<div class="col-msg">
+			<h3>Messages</h3>
+			<div class="overflowable">
+				
+				<div class="msg-container" ng-repeat="message in messages">
+					<!-- Profile Image -->
+					<div class="profile-img">
+						<img src="https://celectcdn.s3.amazonaws.com/images/0029/3466/SGRho-Official_Color_ShieldUPDATED_1_.png" class="profile-image">
+					</div>
+					<!-- -->
+					<div class="profile-msg">
+						<p ng-class="{alert: message.user == &quot;chatroom&quot;}">{{message.user}}: {{message.text}}</p>
+					</div>
+				<div class="clr"></div>
+				<hr>
+
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-user">
+			<h3>Users</h3>
+			<div class="overflowable">
+				<p ng-repeat="user in users">{{user}}</p>
+			</div>
+		</div>
+		<!-- Message Form -->
+		<div class="clr">
+			<form ng-submit="sendMessage()">Message: 
+				<input size="60" ng-model="message"/>
+				<input type="submit" value="Send"/>
+			</form>
+		</div>
+	</div>
+		<!-- -->
+		<div class="clr">
+			<h3>Change your name</h3>
+			<p>Your current user name is {{name}}</p>
+			<form ng-submit="changeName()">
+				<input ng-model="newName" value= {{main.user.name}}/>
+				<input type="submit" value="Change Name"/>
+			</form>
+		</div>
+</div>
+
+
+

@@ -12,6 +12,7 @@
 	<!--<link rel="stylesheet" type="text/css" href="/public/lib/bootstrap/dist/css/bootstrap.min.css">-->
 	<link rel="stylesheet" type="text/css" href="/public/lib/font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/public/css/style.css">
+	<link rel="stylesheet" href="/public/css/chat.css">
 
 	<!-- JS -->
 	<script type="text/javascript" src="/public/lib/jquery/dist/jquery.min.js"></script>
@@ -21,6 +22,7 @@
 	<script type="text/javascript" src="/public/lib/angular-animate/angular-animate.js"></script>
 
 	<!-- All of our Angular files, concatenated and minified w/ gulp-->
+	<script src="/socket.io/socket.io.js"></script>
 	<script src="/public/dist/app.js"></script>
 
 </head>
@@ -68,6 +70,7 @@
                   </ul>
             </li>
   					<li ng-if="!main.loggedIn"><a href="/login">Login</a></li>
+  					<li ng-if="main.loggedIn"><a href="/regional">Regional Chat</a></li>
 						<li ng-if="main.loggedIn" class="dropdown">
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 										<span class="glyphicon glyphicon-user">

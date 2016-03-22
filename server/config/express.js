@@ -10,6 +10,10 @@ var express    = require('express'),
     apiRouter  = require('../routes/api.server.routes'),
     Grid       = require('gridfs-stream');
 
+
+    //socket = require('../controllers/socket.js'),
+    //server = require('http').createServer(express),
+    //io = require('socket.io').listen(server);
 // =============================================================================
 // =============================================================================
 // export a function that sets up everything for this app

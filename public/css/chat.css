@@ -1,0 +1,61 @@
+.overflowable {
+  height: 440px;
+  overflow-y: auto;
+  border: 1px solid #000;
+}
+
+.overflowable p {
+  margin: 0;
+}
+
+.col-msg {
+  float: left;
+  width: 65%;
+}
+
+.col-user {
+  float: left;
+  width: 20%;
+}
+
+.clr {
+  clear: both;
+}
+
+.profile-image{
+	width: inherit;
+}
+
+.msg-container{
+	width: inherit;	
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.profile-img{
+	float: left;
+	width: 50px;
+	height: auto;
+
+	margin-right: 10px;
+	min-height: 
+}
+
+.profile-msg{
+	float: left;
+	margin-left: 10px;
+	width: 220px;
+}
+
+#chat-window{
+	margin: auto;
+}
+
+/* 
+Issue: 
+	width of profile message is not dynamic
+Bugs
+	2. 	
+ */

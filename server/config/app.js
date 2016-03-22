@@ -11,14 +11,21 @@ var config   = require('./config'),
 // export a function that starts the server
 module.exports.start = function() {
 
-  // connect to the database
-  mongoose.connect(config.database);
+
 
   // setup all dependencies and routing
-  var app = express.init();
+  var app = express.init(),
+
+    socket = require('../controllers/socket.js'),
+    server = require('http').createServer(app),
+    io = require('socket.io').listen(server);
+
+
 
   // begin listening on the specified port
-  app.listen(config.port, function() {
+  server.listen(config.port, function() {
     console.log('App listening on port', config.port);
   });
+
+  io.sockets.on('connection',socket);
 };

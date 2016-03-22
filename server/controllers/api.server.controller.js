@@ -95,7 +95,7 @@ exports.tokens = function(req, res, next){
   else {
     res.status(403).send({ success: false, message: '403 - Forbidden: No token.' });
   }
-}
+};
 /********************************************************************************/
 exports.me =  function(req, res) {
   User.findOne({ username: req.decoded.username })

@@ -12,7 +12,7 @@ angular.module('app.routes', ['ngRoute'])
 		.when('/login', {
 			templateUrl : 'views/login.html',
    			controller  : 'mainController',
-    			controllerAs: 'login'
+    		controllerAs: 'login'
 		})
 		.when('/error', {
 			templateUrl : 'views/error.html'
@@ -32,6 +32,7 @@ angular.module('app.routes', ['ngRoute'])
 				}
 			}
 		})
+
 		// create a new user
 		.when('/admin/users/create', {
 			templateUrl: 'views/profile.html',
@@ -74,6 +75,20 @@ angular.module('app.routes', ['ngRoute'])
 				}
 			}
 		})
+        //page to see user profile
+        //should work I should probably look at that
+        .when('/users/profile/:user_id', {
+            templateUrl: 'views/profile.html',
+            controller: 'userProfileController',
+            controllerAs: 'user'
+        })
+
+        .when('/regional', {
+        	templateUrl: 'views/regional.html',
+        	controller: 'chatController',
+        	controllerAs: 'chat'
+        })
+   
 		.otherwise({
 			redirectTo: '/'
 		});
