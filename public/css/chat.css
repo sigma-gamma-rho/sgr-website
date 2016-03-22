@@ -1,5 +1,5 @@
 .overflowable {
-  height: 240px;
+  height: 440px;
   overflow-y: auto;
   border: 1px solid #000;
 }
@@ -8,15 +8,16 @@
   margin: 0;
 }
 
-.col {
+.col-msg {
   float: left;
-  width: 350px;
+  width: 65%;
 }
 
-.col {
+.col-user {
   float: left;
-  width: 350px;
+  width: 20%;
 }
+
 .clr {
   clear: both;
 }
@@ -46,6 +47,10 @@
 	float: left;
 	margin-left: 10px;
 	width: 220px;
+}
+
+#chat-window{
+	margin: auto;
 }
 
 /* 

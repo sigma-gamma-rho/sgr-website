@@ -1,8 +1,8 @@
 angular
-	.module('chatCtrl', ['chatService'])
+	.module('chatCtrl', ['chatService', 'rssService'])
 	.controller('chatController', function ($scope, socket) {
 
-  // Socket listeners
+    // Socket listeners
   // ================
 
   socket.on('init', function (data) {
@@ -17,15 +17,14 @@ angular
   socket.on('change:name', function (data) {
     changeName(data.oldName, data.newName);
   });
-  // faulty
+
   socket.on('load:old:messages', function (docs) {
     for (var i = docs.length - 1; i >= 0; i--) {
-      console.log(docs[i].name);
       $scope.messages.push({
-        user: doc[i].name,
-        text: 'User ' + docs[i].name + ' has left.'
+        user: docs[i].name,
+        text: docs[i].msg
       });
-    };
+    }
   });
 
   socket.on('user:join', function (data) {
@@ -95,7 +94,6 @@ angular
     socket.emit('send:message', {
       message: $scope.message
     });
-
     // add the message to our model locally
     $scope.messages.push({
       user: $scope.name,

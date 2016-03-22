@@ -79,16 +79,22 @@
             <!--<li ni-if="main.loggedIn"><a ng-href="/users/profile/56be5848fe2df425036486c4">Profile</a></li>-->
 
   					<li ng-if="main.user.admin" class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-  									<span class="glyphicon glyphicon-wrench">&nbsp;Admin <span class="caret"></span></span></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="/admin"><span class="glyphicon glyphicon-user"></span>&nbsp;Users</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li class="dropdown-header">Nav header</li>
-                    <li><a href="#">Other</a></li>
-                  </ul>
-                </li>
+                		<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+  							<span class="glyphicon glyphicon-wrench">&nbsp;Admin <span class="caret"></span></span>
+  						</a>
+	                  	<ul class="dropdown-menu">
+	                    	<li>
+	                    		<a href="/admin">
+	                    			<span class="glyphicon glyphicon-user"></span>&nbsp;Users
+	                    		</a>
+	                    	</li>
+	                		<li role="separator" class="divider"></li>
+	                    	<li class="dropdown-header">Nav header</li>
+	                    	<li><a href="#">Other</a></li>
+	                	</ul>
+                	</li>
   					<li ng-if="!main.loggedIn"><a href="/login">Login</a></li>
+  					<li ng-if="main.loggedIn"><a href="/regional">Regional Chat</a></li>
   					<li ng-if="main.loggedIn"><a href="#" ng-click="main.doLogout()">Logout</a></li>
   				</ul>
   			</div>

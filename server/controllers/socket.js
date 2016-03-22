@@ -1,6 +1,8 @@
 var mongoose  = require('mongoose');
   var config    = require('../config/config.js');
-  var Chat      = require('../models/chat.js')
+  var Chat      = require('../models/chat.js');
+  var User        = require('../controllers/api.server.controller.js');
+  var request = require('request');
 
   // connect to the database
   mongoose.connect(config.database, 
@@ -18,8 +20,6 @@ var userNames = (function () {
   var names = {};
 
   
-
-
   var claim = function (name) {
     if (!name || names[name]) {
       return false;
@@ -68,12 +68,12 @@ var userNames = (function () {
 
 // export function for listening to the socket
 module.exports = function (socket) {
+  // This must be change to display individual user names
   var name = userNames.getGuestName();
-  var query = Chat.find({});
 
+  var query = Chat.find({});
   query.sort('-created').limit(25).exec(function(err, docs){
     if(err) throw err;
-    
     socket.emit('load:old:messages', docs);
   });
   // send the new user their name and a list of users

@@ -24,11 +24,6 @@ angular.module('app.routes', ['ngRoute'])
 			controllerAs: 'admin'
 		})
 
-
-
-
-
-
 		// create a new user
 		.when('/users/create', {
 			templateUrl: 'views/single.html',
