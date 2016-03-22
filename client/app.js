@@ -1,13 +1,27 @@
 angular.module('userApp', [
-	'authService', 
-	'mainCtrl', 
+
 	'ngAnimate', 
 	'app.routes', 
-	'authService', 
-	'userService', 
-	'adminCtrl', 
-	'chatCtrl', 
+
+	'authFactory', 
+	'interceptFactory',
+	'crudFactory',
+
+	'adminService',
+	'formService',
+	'profileService', 
 	'chatService',
+	'rssService',
+
+
+	'mainCtrl', 
+	'adminCtrl',
+	'profileCtrl',
+	'chatCtrl', 
+
+	'fileDirective',
+
+
 ])
 
 /*

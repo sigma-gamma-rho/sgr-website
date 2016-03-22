@@ -1,16 +1,10 @@
 # sgr-website
 Website built from the ground up using the MEAN stack.
 
-### Prerequisites
-
-- [Git](https://git-scm.com/)
-- [Node.js and npm](nodejs.org)
-- [MongoDB](https://www.mongodb.org/)
-
-### Developing
-
-1. Run `npm install` to install server dependencies.
-
-2. Run `npm install -g nodemon` to install nodemon. (https://github.com/remy/nodemon)
-
-3. Run this app solely with the command 'nodemon' in the project directory.
+# Instructions
+1. Navigate to the project directory
+2. Place the 'config.js' file in the 'server/config' directory.
+3. Make sure you are in the root directory before continuing
+4. Run 'npm install' and 'bower install'.
+5. Start the server with the command 'gulp'.
+6. Navigate to http://localhost:8080/ in your user agent of choice.

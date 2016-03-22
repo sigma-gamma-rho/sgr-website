@@ -3,8 +3,9 @@
 // get dependencies
 var config   = require('./config'),
     mongoose = require('mongoose'),
-    express  = require('./express');
-
+    express  = require('./express'),
+    Grid     = require('gridfs-stream');
+    
 // =============================================================================
 // =============================================================================
 // export a function that starts the server

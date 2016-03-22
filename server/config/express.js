@@ -7,7 +7,8 @@ var express    = require('express'),
     morgan     = require('morgan'),
     mongoose   = require('mongoose'),
     path 	   	 = require('path'),
-    apiRouter  = require('../routes/api.server.routes');
+    apiRouter  = require('../routes/api.server.routes'),
+    Grid       = require('gridfs-stream');
 
 
     //socket = require('../controllers/socket.js'),

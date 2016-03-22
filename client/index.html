@@ -24,26 +24,6 @@
 	<!-- All of our Angular files, concatenated and minified w/ gulp-->
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="/public/dist/app.js"></script>
-  <!--
-  OLD WAY - WITHOUT BOWER
-  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
-	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css">
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.min.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-route.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-animate.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
--->
-
-	<!-- OLD WAY - WITHOUT GULP
-	<script src="controllers/mainCtrl.js"></script>
-	<script src="controllers/adminCtrl.js"></script>
-	<script src="factories/authFactory.js"></script>
-	<script src="factories/userFactory.js"></script>
-	<script src="config/app.client.routes.js"></script>
-	<script src="app.js"></script>
--->
-
 
 </head>
 <body ng-app="userApp" ng-controller="mainController as main">
@@ -63,8 +43,7 @@
 
   			<!-- Title & Welcome Message Top Left-->
   			<div class="navbar-header">
-  				<a id="SGR-logo" href="/" class="navbar-brand"><span class="glyphicon glyphicon-education"></span>&Sigma;&Gamma;&Rho;</a>
-  				<li ng-if="main.loggedIn" class="navbar-text">Hello {{ main.user.username }}!</li>
+  				<a id="SGR-logo" href="/" class="navbar-brand">&Sigma;&Gamma;&Rho;</a>
   			</div>
 
   			<!-- Admin User Feature -->
@@ -79,23 +58,33 @@
             <!--<li ni-if="main.loggedIn"><a ng-href="/users/profile/56be5848fe2df425036486c4">Profile</a></li>-->
 
   					<li ng-if="main.user.admin" class="dropdown">
-                		<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-  							<span class="glyphicon glyphicon-wrench">&nbsp;Admin <span class="caret"></span></span>
-  						</a>
-	                  	<ul class="dropdown-menu">
-	                    	<li>
-	                    		<a href="/admin">
-	                    			<span class="glyphicon glyphicon-user"></span>&nbsp;Users
-	                    		</a>
-	                    	</li>
-	                		<li role="separator" class="divider"></li>
-	                    	<li class="dropdown-header">Nav header</li>
-	                    	<li><a href="#">Other</a></li>
-	                	</ul>
-                	</li>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+  									<span class="glyphicon glyphicon-wrench">
+											&nbsp;Admin&nbsp;<span class="caret"></span>
+										</span>
+									</a>
+                  <ul class="dropdown-menu">
+										<!--<li class="dropdown-header">Admin Tools</li>
+										<li role="separator" class="divider"></li>-->
+                    <li><a href="/admin/users"><span class="glyphicon glyphicon-user"></span>&nbsp;Users</a></li>
+                  </ul>
+            </li>
   					<li ng-if="!main.loggedIn"><a href="/login">Login</a></li>
   					<li ng-if="main.loggedIn"><a href="/regional">Regional Chat</a></li>
-  					<li ng-if="main.loggedIn"><a href="#" ng-click="main.doLogout()">Logout</a></li>
+						<li ng-if="main.loggedIn" class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										<span class="glyphicon glyphicon-user">
+											&nbsp;{{ main.user.name}}&nbsp;<span class="caret"></span>
+										</span>
+									</a>
+									<ul class="dropdown-menu">
+										<li>
+											<a href="#" ng-click="main.doLogout()">
+												<span class="glyphicon glyphicon-log-out"></span>&nbsp;Logout
+											</a>
+										</li>
+									</ul>
+						</li>
   				</ul>
   			</div>
   		</div>

@@ -1,8 +1,7 @@
-angular.module('userService', [])
+angular.module('crudFactory', [])
+.factory('Crud', function($http) {
 
-.factory('User', function($http) {
-
-	// create a new object
+	// factories return objects
 	var userFactory = {};
 
 	// get a single user
@@ -30,7 +29,14 @@ angular.module('userService', [])
 		return $http.delete('/api/users/' + id);
 	};
 
+	userFactory.deletePicture = function(pictureName){
+		return $http.delete('/api/pictures/' + pictureName);
+	};
+
+	userFactory.readPicture = function(pictureName){
+		return $http.get('/api/pictures/' + pictureName);
+	};
+	
 	// return our entire userFactory object
 	return userFactory;
-
 });
