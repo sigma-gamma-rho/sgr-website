@@ -84,10 +84,10 @@ angular.module('mainCtrl', [])
 // INJECT DEPENDENCIES
 // ==============================================
 // controller applied to main page
-.controller('userSignUpController', function($http,$location,$window,Auth,$scope,$animate){
+.controller('userSignUpController', function($scope,$http,$location,$window,Auth,$animate){
     
     
-    /*var vm = this;
+    var vm = this;
 
 	// get info if a person is logged in
 	vm.loggedIn = Auth.isLoggedIn();
@@ -106,7 +106,7 @@ angular.module('mainCtrl', [])
 			});
 		}
     
-    $scope.toastPosition = {
+    /*$scope.toastPosition = {
         bottom: false,
         top: true,
         left: false,
@@ -118,13 +118,14 @@ angular.module('mainCtrl', [])
             return $scope.toastPostion[pos];
         })
         .join('');
-    };
+    };*/
     
     vm.sendMail = function(){
         
         var data = ({
             signUpName : this.signUpName,
-            signUpEmail : this.signUpEmail
+            signUpEmail : this.signUpEmail,
+            signUpPassword : this.signUpPassword
         });
         
         $http.post('/signUpForm',data).
@@ -134,6 +135,6 @@ angular.module('mainCtrl', [])
         error(function(data,status,headers,config){
             
         });
-    };*/
+    };
     
 });

@@ -4,6 +4,8 @@ var mongoose    = require('mongoose'),
     User        = require('../models/api.server.model.js'),
     config      = require('../config/config.js'),
     morgan      = require('morgan'),
+    nodemailer  = require('nodemailer'),
+    transporter = nodemailer.createTransport(),
     superSecret = config.secret;
 
 /********************************************************************************/
@@ -57,7 +59,7 @@ exports.tokens = function(req, res, next){
   else {
     res.status(403).send({ success: false, message: '403 - Forbidden: No token.' });
   }
-}
+};
 /********************************************************************************/
 exports.me =  function(req, res) {
   User.findOne({ username: req.decoded.username })

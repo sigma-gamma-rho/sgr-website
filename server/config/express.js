@@ -7,6 +7,8 @@ var express    = require('express'),
     morgan     = require('morgan'),
     mongoose   = require('mongoose'),
     path 	   	 = require('path'),
+    nodemailer  = require('nodemailer'),
+    transporter = nodemailer.createTransport(),
     apiRouter  = require('../routes/api.server.routes');
 
 // =============================================================================
@@ -38,11 +40,14 @@ module.exports.init = function() {
 
   /* use the api router for requests to the api*/
   app.use('/api', apiRouter);
-
+  //app.use('signUpForm').post(app.sendMail);
+    
   /* go to homepage for all routes not specified */
   app.all('/*', function(req, res) {
     res.sendFile(path.resolve('client/index.html'));
   });
+    
+
 
   return app;
 };
